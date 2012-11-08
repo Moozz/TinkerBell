@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using TinkerBell;
+
 namespace TinkerBell
 {
     /// <summary>
@@ -22,6 +24,27 @@ namespace TinkerBell
         public MainWindow()
         {
             InitializeComponent();
+            CParameters l_parameter = new CParameters();
+            l_parameter.AddField("BID");
+            l_parameter.AddInstrument("EUR=");
+            l_parameter.AddParameter("CH", "In");
+            l_parameter.AddParameter("CH", "Fd");
+            foreach (string l_each in l_parameter.Instruments)
+            {
+                Console.WriteLine(l_each);
+            }
+            foreach (string l_each in l_parameter.Fields)
+            {
+                Console.WriteLine(l_each);
+            }
+            foreach (KeyValuePair<string, List<string>> l_each in l_parameter.Parameters)
+            {
+                Console.WriteLine(l_each.Key);
+                foreach (string l_eachValue in l_each.Value)
+                {
+                    Console.Write(l_eachValue + " ");
+                }
+            }
         }
     }
 }
