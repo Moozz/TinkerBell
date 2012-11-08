@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<metadata>
+	<Instrument>
+		<view Code="GOOG.O" Name="Google Inc" Type="Ordinary Share"/>
+		<view Code="IBM.N" Name="International Business Machines Corp" Type="Ordinary Share"/>
+		<view Code="TRI.N" Name="Thomson Reuters Corp" Type="Ordinary Share"/>
+		<view Code="MSFT.O" Name="Microsoft Corp" Type="Ordinary Share"/>
+		<view Code="PTT.BK" Name="PTT PCL" Type="Ordinary Share"/>
+		<view Code="AAPL.O" Name="Apple Inc" Type="Ordinary Share"/>
+		<view Code="EUR=" Name="&quot;&quot;" Type="FX Spot Rate"/>
+		<view Code="JPY=" Name="&quot;&quot;" Type="FX Spot Rate"/>
+		<view Code="THB=" Name="&quot;&quot;" Type="FX Spot Rate"/>
+		<view Code="USD=" Name="&quot;&quot;" Type="FX Spot Rate"/>
+		<view Code="HKD=" Name="&quot;&quot;" Type="FX Spot Rate"/>
+	</Instrument>
+	<Filed>
+		<view Code="BID" Name="BID" Type="Real-Time"/>
+		<view Code="ASK" Name="ASK" Type="Real-Time"/>
+		<view Code="CURRENCY" Name="CURRENCY" Type="Real-Time"/>
+		<view Code="CLOSE" Name="CLOSE" Type="Real-Time"/>
+		<view Code="RF.G.Compname" Name="RF.G.Compname" Type="Reference"/>
+		<view Code="RF.IS.NetSales" Name="RF.IS.NetSales" Type="Reference"/>
+		<view Code="RI.ID.RIC" Name="RI.ID.RIC" Type="Reference"/>
+	</Filed>
+	<Parameter>
+		<view Code="START" Name1="Start update at {0}" Name2="" Type="Refresh"></view>
+		<view Code="END" Name1="Stop update at {0}" Type="Refresh"></view>
+		<view Code="FRQ" Name1="Update every {0}" Type="Refresh">
+			<value Value="S" Desc="{0} Second"/>
+			<value Value="M" Desc="{0} Minute"/>
+			<value Value="H" Desc="{0} Hour"/>
+		</view>
+		<view Code="CH" Name1="Display Column Header as {0}" Name2="" Type="Display">
+			<value Value="In" Desc="Instrument"/>
+			<value Value="Fd" Desc="Field"/>
+		</view>
+		<view Code="RH" Name1="Display Row Header as {0}" Name2="" Type="Display">
+			<value Value="In" Desc="Instrument"/>
+			<value Value="Fd" Desc="Field"/>
+		</view>
+		<view Code="TRANSPOSE" Name1="Transpose Layout" Name2="" Type="Display"></view>
+		<view Code="SORT" Name="Sort Data {0}" Type="Display">
+			<value Value="A" Desc="Ascending"/>
+			<value Value="D" Desc="Descending"/>
+		</view>
+	</Parameter>
+</metadata>
