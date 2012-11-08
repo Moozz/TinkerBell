@@ -5,13 +5,14 @@ using System.Text;
 
 namespace TinkerBell
 {
-    class CParameters
+    class CParameters : IWillHearMyChilds
     {
         public CParameters()
         {
             m_instruments = new List<string>();
             m_fields = new List<string>();
             m_parameters = new Dictionary<string, List<string>>();
+            m_childsWhoAreListeningToMe = new List<IWillHearMyParent>();
         }
         
         public void AddInstrument(string a_instrument)
@@ -71,8 +72,19 @@ namespace TinkerBell
             get { return m_parameters; }
         }
 
+
+
+        public void OnMyChildToldsMeThatHeChangesParameters()
+        {
+            foreach (IWillHearMyParent l_child in m_childsWhoAreListeningToMe)
+            {
+                l_child.OnMyParentToldsMeThatHeChangesParameters();
+            }
+        }
+
         private List<string> m_instruments;
         private List<string> m_fields;
         private Dictionary<string, List<string>> m_parameters;
+        private List<IWillHearMyParent> m_childsWhoAreListeningToMe;
     }
 }
