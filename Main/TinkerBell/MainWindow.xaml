@@ -16,7 +16,7 @@
         </Grid>
         <GroupBox Header="Interpreter" Height="150" HorizontalAlignment="Left" Margin="12,398,0,0" Name="Interpreter" VerticalAlignment="Top" Width="566">
             <Grid>
-                <TextBlock HorizontalAlignment="Left" Name="InterpreterText" Text="..." VerticalAlignment="Top" Height="115" Width="542" TextWrapping="WrapWithOverflow" Margin="6,6,0,0" />
+                <TextBlock HorizontalAlignment="Left" Name="InterpreterText" Text="Please add Instrument and Fields :)" VerticalAlignment="Top" Height="115" Width="542" TextWrapping="WrapWithOverflow" Margin="6,6,0,0" />
             </Grid>
         </GroupBox>
         <Button Content="Swap!" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="6,526,0,0" Name="TriggerEvent" VerticalAlignment="Top" Width="75" Click="TriggerEvent_Click" />
