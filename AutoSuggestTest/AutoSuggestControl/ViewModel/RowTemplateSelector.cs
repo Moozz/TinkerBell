@@ -15,9 +15,9 @@ namespace AutoSuggestControl.ViewModel
 
         public override DataTemplate SelectTemplate(object item,  DependencyObject container)
         {
-            if (item is AutoSuggestModel.DisplaySearchResult)
+            if (item is AutoSuggestModel.DisplayInstrumentResult)
             {
-                var suggestedItem = item as AutoSuggestModel.DisplaySearchResult;
+                var suggestedItem = item as AutoSuggestModel.DisplayInstrumentResult;
                 if (suggestedItem.IsCategory)
                     return HeaderTemplate;
                 else

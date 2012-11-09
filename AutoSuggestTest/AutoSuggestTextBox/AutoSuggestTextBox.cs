@@ -285,9 +285,9 @@ namespace AutoSuggestTextBox
 
                 if (this.popup != null)
                 {
-                    if (this.listBox.Items.Count == 0)
-                        this.InternalClosePopup();
-                    else
+                    //if (this.listBox.Items.Count == 0)
+                    //    this.InternalClosePopup();
+                    //else
                         this.InternalOpenPopup();
                 }
             }
