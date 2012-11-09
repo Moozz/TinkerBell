@@ -17,8 +17,8 @@
 	<Field>
 		<item Code="BID" Description="Bid Price" Type="Real-Time"/>
 		<item Code="ASK" Description="Ask Price" Type="Real-Time"/>
-		<item Code="CURRENCY" Description="CURRENCY" Type="Real-Time"/>
-		<item Code="CLOSE" Description="CLOSE" Type="Real-Time"/>
+		<item Code="CURRENCY" Description="Currency" Type="Real-Time"/>
+		<item Code="CLOSE" Description="Close" Type="Real-Time"/>
 		<item Code="RF.G.Compname" Description="Company Name" Type="Reference"/>
 		<item Code="RF.IS.NetSales" Description="Net Sales" Type="Reference"/>
 		<item Code="RI.ID.RIC" Description="Reuters Identification Code" Type="Reference"/>
