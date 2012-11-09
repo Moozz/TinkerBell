@@ -7,7 +7,7 @@ namespace TinkerBell
 {
     interface IWillHearMyParent
     {
-        void OnMyParentToldsMeThatHeChangesParameters();
+        void OnParametersChange();
     }
 
     interface IWillHearMyChilds

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 
 using TinkerBell;
 
@@ -19,18 +20,21 @@ namespace TinkerBell
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IWillHearMyChilds
     {
+        private List<IWillHearMyParent> m_childsWhoAreListeningToMe;
+
         public MainWindow()
         {
             InitializeComponent();
+            m_childsWhoAreListeningToMe = new List<IWillHearMyParent>();
+        }
+
+        public void test()
+        {
             CParameters l_parameter = new CParameters();
-            l_parameter.AddField("BID");
             l_parameter.AddInstrument("EUR=");
-            l_parameter.AddParameter("CH", "In");
-            l_parameter.AddParameter("CH", "Fd");
             l_parameter.AddField("ASK");
-            l_parameter.AddInstrument("JPY=");
             foreach (string l_each in l_parameter.Instruments)
             {
                 Console.WriteLine(l_each);
@@ -47,6 +51,30 @@ namespace TinkerBell
                     Console.Write(l_eachValue + " ");
                 }
             }
+        }
+
+        private void TriggerEvent_Click(object sender, RoutedEventArgs e)
+        {
+            this.OnMyChildToldsMeThatHeChangesParameters();
+        }
+
+        public void OnMyChildToldsMeThatHeChangesParameters()
+        {
+            // Tell another childs
+            /*
+            foreach (IWillHearMyParent l_child in m_childsWhoAreListeningToMe)
+            {
+                l_child.OnParametersChange();
+            }
+            */
+
+            // Update Interpreter
+
+            string l_interpretedWord = "This functions returns TYPE1 of FIELD_DES1, FIELD_DES2 and TYPE2 of FIELD_DES1, FIELD_DES2 for INS_DES1, INS_DES2 INS_TYPE_OF_1_2 and INS_DES3, INS_DES4 INS_TYPE_OF_3_4";
+            
+            XmlReader l_xml = XmlReader.Create("D:\\TinkerBell\\Database");
+
+            InterpreterText.Text = l_interpretedWord;
         }
     }
 }
