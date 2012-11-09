@@ -9,12 +9,12 @@
 		<item Code="AAPL.O" Description="Apple Inc" Type="Ordinary Share"/>
 		<item Code="EUR=" Description="Euro" Type="FX Spot Rate"/>
 		<item Code="JPY=" Description="Japan Yen;" Type="FX Spot Rate"/>
-		<item Code="THB=" Description="&Thai Baht;" Type="FX Spot Rate"/>
+		<item Code="THB=" Description="Thai Baht;" Type="FX Spot Rate"/>
 		<item Code="USD=" Description="US Dollar;" Type="FX Spot Rate"/>
 		<item Code="HKD=" Description="Hong Kong Dollar" Type="FX Spot Rate"/>
 	</Instrument>
 	
-	<Filed>
+	<Field>
 		<item Code="BID" Description="BID" Type="Real-Time"/>
 		<item Code="ASK" Description="ASK" Type="Real-Time"/>
 		<item Code="CURRENCY" Description="CURRENCY" Type="Real-Time"/>
@@ -22,7 +22,7 @@
 		<item Code="RF.G.Compname" Description="RF.G.Compname" Type="Reference"/>
 		<item Code="RF.IS.NetSales" Description="RF.IS.NetSales" Type="Reference"/>
 		<item Code="RI.ID.RIC" Description="RI.ID.RIC" Type="Reference"/>
-	</Filed>
+	</Field>
 	
 	<Parameter>
 		<item Code="START" Description1="Start to retrieve data at {0}" Description2="Start to retrieve data at {0} " Type="Refresh">
