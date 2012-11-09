@@ -38,17 +38,10 @@ namespace TinkerBell
             m_parameter.AddInstrument("JPY=");
             m_parameter.AddInstrument("TRI.N");
             m_parameter.AddInstrument("MSFT.O");
-            m_parameter.AddInstrument("PTT.BK");
-            m_parameter.AddInstrument("AAPL.O");
-            m_parameter.AddInstrument("THB=");
             m_parameter.AddField("BID");
-            m_parameter.AddField("ASK");
-            m_parameter.AddField("CURRENCY");
-            m_parameter.AddField("CLOSE");
-            m_parameter.AddField("RF.G.Compname");
-            m_parameter.AddField("RF.IS.NetSales");
             m_parameter.AddField("RI.ID.RIC");
-
+            m_parameter.AddParameter("CH", "In");
+            m_parameter.AddParameter("RH", "Fd");
             
             foreach (string l_each in m_parameter.Instruments)
             {
@@ -76,13 +69,11 @@ namespace TinkerBell
 
         public void OnMyChildToldsMeThatHeChangesParameters()
         {
-            // Tell another childs
-            /*
+            // Tell childs
             foreach (IWillHearMyParent l_child in m_childsWhoAreListeningToMe)
             {
                 l_child.OnParametersChange();
             }
-            */
 
             // Update Interpreter
             // This functions returns TYPE1 of FIELD_DES1 and FIELD_DES2 and TYPE2 of FIELD_DES1, FIELD_DES2 
@@ -123,15 +114,23 @@ namespace TinkerBell
                 if (l_interpretedWord.LastIndexOf(" and ") > 0)
                     l_interpretedWord = l_interpretedWord.Remove(l_interpretedWord.Length - " and ".Length);
 
-                InterpreterText.Text = l_interpretedWord + ".\n";
-                /*
+                l_interpretedWord += ".\nIt will ";
+
                 if (m_parameter.Parameters.Count != 0)
                 {
-                    foreach (KeyValuePair<string, List<string>> item in m_parameter.Parameters)
-	                {
-		 
-	                } 
-                }*/
+                    foreach (KeyValuePair<string, List<string>> l_each in m_parameter.Parameters)
+                    {
+                        foreach (string l_parameterValue in l_each.Value)
+                        {
+                            // Need to fill {0} with the description of a value of this parameter
+                            // for example, display {0} as Column Header. {0} is In -> instrument
+                            l_interpretedWord += DatabaseReader.FindParameterDescription(l_each.Key) + " and ";
+                        }
+                        l_interpretedWord = l_interpretedWord.Remove(l_interpretedWord.Length - " and ".Length);
+                        l_interpretedWord += "\n";
+                    }
+                }
+                InterpreterText.Text = l_interpretedWord;
             }
             else
             {

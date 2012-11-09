@@ -32,31 +32,31 @@
 		</item>
 		
 		<item Code="FRQ" Description1="refresh every {0}" Description2="Refresh every {0}" Type="Refresh">
-			<value Value="S" Desc="{0} Second"/>
-			<value Value="M" Desc="{0} Minute"/>
-			<value Value="H" Desc="{0} Hour"/>
+			<value Value="S" Description="{0} Second"/>
+			<value Value="M" Description="{0} Minute"/>
+			<value Value="H" Description="{0} Hour"/>
 		</item>
 		
 		<item Code="CH" Description1="display {0} as Column Header" Description2="Display {0} as Column Header" Type="Display">
-			<value Value="In" Desc="instrument"/>
-			<value Value="Fd" Desc="field"/>
+			<value Value="In" Description="instrument"/>
+			<value Value="Fd" Description="field"/>
 		</item>
 		
 		<item Code="RH" Description1="display {0} as Row Header" Description2="Display {0} as Row Header" Type="Display">
-			<value Value="In" Desc="instrument"/>
-			<value Value="Fd" Desc="field"/>
+			<value Value="In" Description="instrument"/>
+			<value Value="Fd" Description="field"/>
 		</item>
 		
 		<item Code="TRANSPOSE" Description1="display data in {0}" Description2="Display data in {0}" Type="Display">
-			<value Value="Y" Desc="verticle layout"/>
-			<value Value="Yes" Desc="verticle layout"/>
-			<value Value="N" Desc="horizontal layout"/>
-			<value Value="No" Desc="horizontal layout"/>
+			<value Value="Y" Description="verticle layout"/>
+			<value Value="Yes" Description="verticle layout"/>
+			<value Value="N" Description="horizontal layout"/>
+			<value Value="No" Description="horizontal layout"/>
 		</item>
 		
 		<item Code="SORT" Description1="data will order in {0} order" Description2="Data will order in {0} order" Type="Display">
-			<value Value="A" Desc="ascending"/>
-			<value Value="D" Desc="descending"/>
+			<value Value="A" Description="ascending"/>
+			<value Value="D" Description="descending"/>
 		</item>
 	</Parameter>
 </metadata>
