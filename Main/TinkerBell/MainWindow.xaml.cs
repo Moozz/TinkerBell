@@ -28,6 +28,7 @@ namespace TinkerBell
         {
             InitializeComponent();
             m_childsWhoAreListeningToMe = new List<IWillHearMyParent>();
+            test();
         }
 
         public void test()
@@ -51,6 +52,7 @@ namespace TinkerBell
                     Console.Write(l_eachValue + " ");
                 }
             }
+            this.OnMyChildToldsMeThatHeChangesParameters();
         }
 
         private void TriggerEvent_Click(object sender, RoutedEventArgs e)
@@ -71,8 +73,8 @@ namespace TinkerBell
             // Update Interpreter
 
             string l_interpretedWord = "This functions returns TYPE1 of FIELD_DES1, FIELD_DES2 and TYPE2 of FIELD_DES1, FIELD_DES2 for INS_DES1, INS_DES2 INS_TYPE_OF_1_2 and INS_DES3, INS_DES4 INS_TYPE_OF_3_4";
-            
-            XmlReader l_xml = XmlReader.Create("D:\\TinkerBell\\Database");
+               
+            XmlReader l_xml = XmlReader.Create("TinkerBell.xml");
 
             InterpreterText.Text = l_interpretedWord;
         }
