@@ -7,10 +7,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Xml;
+using System.Xml.XPath;
 using AutoSuggestControl.Model;
 using RestSharp;
 using RestSharp.Contrib;
-
 
 
 
@@ -21,13 +21,12 @@ namespace AutoSuggestControl
     {
         #region fields
 
-        private List<AutoSuggestModel.DisplaySearchResult> mWaitMessage = null;
+        private List<AutoSuggestModel.DisplayInstrumentResult> mWaitMessage = null;
 
         private string mQueryText = string.Empty;
 
         private IEnumerable mQueryCollection = null;
-       
-   
+      
         #endregion fields
 
         #region INotifyPropertyChanged Members
@@ -45,7 +44,7 @@ namespace AutoSuggestControl
             {
                 if (mWaitMessage == null)
                 {
-                    mWaitMessage = new List<AutoSuggestModel.DisplaySearchResult>();
+                    mWaitMessage = new List<AutoSuggestModel.DisplayInstrumentResult>();
                     AddDummyResult(mQueryText, true);
                 }
                 return this.mWaitMessage;
@@ -85,7 +84,6 @@ namespace AutoSuggestControl
         {
             get
             {
-
                 return this.mQueryCollection;
             }
         }
@@ -143,111 +141,129 @@ namespace AutoSuggestControl
         }
             
       
-        public string UserToken { get; set; }
-        private RestRequestAsyncHandle asyncHandle = null;
+        private List<AutoSuggestModel.Instrument> mInstrumentDB;
 
-        private RestRequest CreateRestRequest(string queryText)
+        public void InitInstrumentDB()
         {
-            var request = new RestRequest("query={query}&api-key={apikey}", Method.GET);
-            request.AddUrlSegment("query", queryText);
-            request.AddUrlSegment("apikey", ApiKey);
-            //cookie
-            request.AddParameter("EIKON_USER_AGENT", "\"NET40,EIKON6.0.75,SR2,HF75.4,HF75.1,HF75.2,HF75.3,HF75.5,DT12.11.2,TA6.0.25,CPO6.0.4\"", ParameterType.Cookie);
-            //request.AddParameter("iPlanetDirectoryPro", HttpUtility.UrlEncode(UserToken), ParameterType.Cookie);
-            request.AddParameter("iPlanetDirectoryPro", UserToken, ParameterType.Cookie);
+            try
+            {
+                //this is a string representing where the xml file is located
+                string xmlFileName = "C:\\Dev\\ExcelInova\\Database\\Thinkerbell.xml";
 
-            request.AddHeader("Accept-Language", "en");
-            return request;
+                // create an XPathDocument object
+                XPathDocument xmlPathDoc = new XPathDocument(xmlFileName);
+
+                // create a navigator for the xpath doc
+                XPathNavigator xNav = xmlPathDoc.CreateNavigator();
+
+                //navigate and print the document
+                XPathNodeIterator xPathIt = xNav.Select("//Instrument/item");
+                if (xPathIt.Count > 0)
+                {
+                    mInstrumentDB = new List<AutoSuggestModel.Instrument>();
+                    while (xPathIt.MoveNext())
+                    {
+                        string l_code = xPathIt.Current.GetAttribute("Code", "");
+                        string l_description = xPathIt.Current.GetAttribute("Description", "");
+                        string l_type = xPathIt.Current.GetAttribute("Type", "");
+                        mInstrumentDB.Add(new AutoSuggestModel.Instrument()
+                            {
+                                CodeName = l_code,
+                                Description = l_description,
+                                Type = l_type
+                            });
+
+                    }
+                }
+            }
+            catch (XmlException e)
+            {
+                Console.WriteLine("Exception: " + e.ToString());
+            }
         }
+
+
 
         private void MakeAutosuggestRequest(string queryText)
         {
-            if (_restClient == null)
-            {   //assign default URL to aint2
-                //ServerUrl ="https://amers1.cps.cp.icp2.mpp.extranet.reutest.biz";
-                return;
-            }
+            //if (_restClient == null)
+            //{   //assign default URL to aint2
+            //    //ServerUrl ="https://amers1.cps.cp.icp2.mpp.extranet.reutest.biz";
+            //    return;
+            //}
 
-            var request = CreateRestRequest(queryText);
-            asyncHandle =  _restClient.ExecuteAsync<AutoSuggestModel.SearchResultList>(request, response =>
-            {
-                if (response != null && response.StatusCode == HttpStatusCode.OK)
-                {
-                    if (response.Data != null)
-                    {
-                        Debug.Print("Got Response from webservice  row count = {0}", response.Data.Result.Count);
-                        mQueryCollection = DataToDisplayResult(response.Data.Result);
-                        this.OnPropertyChanged(typeof(AutoSuggestViewModel).GetProperty("QueryCollection").Name);
-                    }
-                    else
-                    {
-                         AddDummyResult(queryText, false);
-                    }
-                }
-                else
-                {
-                    if (response != null)
-                        Console.WriteLine("Error : {0} ", response.Content);
-                }
-                //asyncHandle = null;
-            });
+            //var request = CreateRestRequest(queryText);
+            //asyncHandle =  _restClient.ExecuteAsync<AutoSuggestModel.SearchResultList>(request, response =>
+            //{
+            //    if (response != null && response.StatusCode == HttpStatusCode.OK)
+            //    {
+            //        if (response.Data != null)
+            //        {
+            //            Debug.Print("Got Response from webservice  row count = {0}", response.Data.Result.Count);
+            //            mQueryCollection = DataToDisplayResult(response.Data.Result);
+            //            this.OnPropertyChanged(typeof(AutoSuggestViewModel).GetProperty("QueryCollection").Name);
+            //        }
+            //        else
+            //        {
+            //             AddDummyResult(queryText, false);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (response != null)
+            //            Console.WriteLine("Error : {0} ", response.Content);
+            //    }
+            //    //asyncHandle = null;
+            //});
+            mQueryCollection = DataToDisplayResult();
+            this.OnPropertyChanged(typeof(AutoSuggestViewModel).GetProperty("QueryCollection").Name);
         }
 
         private void AddDummyResult(string queryText, bool IsWaiting = true)
         {
-            Debug.Print("Show Dummy row");            
-            List<AutoSuggestModel.SearchResult> dummyResult = new List<AutoSuggestModel.SearchResult>();
-            dummyResult.Add(new AutoSuggestModel.SearchResult()
+            Debug.Print("Show Dummy row");
+            List<AutoSuggestModel.Instrument> dummyResult = new List<AutoSuggestModel.Instrument>();
+            dummyResult.Add(new AutoSuggestModel.Instrument()
             {
-                Name = "Searching ...",
-                HasMore = false,
-                Hits = new List<AutoSuggestModel.HitResult>(),
-                Size = 1
+                CodeName = "Searching...",
+                Description = "",
+                Type = ""
             });
 
-            if (IsWaiting)
-            {
-                mWaitMessage = DataToDisplayResult(dummyResult);
-                this.OnPropertyChanged(typeof(AutoSuggestViewModel).GetProperty("WaitMessage").Name);
-            }
-            else
-            {
-                mQueryCollection = DataToDisplayResult(dummyResult);
-                this.OnPropertyChanged(typeof (AutoSuggestViewModel).GetProperty("QueryCollection").Name);                
-            }
+           if (IsWaiting)
+           {
+               mWaitMessage = DataToDisplayResult();
+               this.OnPropertyChanged(typeof(AutoSuggestViewModel).GetProperty("WaitMessage").Name);
+           }
+           else
+           {
+               mQueryCollection = DataToDisplayResult();
+               this.OnPropertyChanged(typeof (AutoSuggestViewModel).GetProperty("QueryCollection").Name);                
+           }
+
         }
 
-        private List<AutoSuggestModel.DisplaySearchResult> DataToDisplayResult(List<AutoSuggestModel.SearchResult> resultList)
+        private List<AutoSuggestModel.DisplayInstrumentResult> DataToDisplayResult()
         {
-            List<AutoSuggestModel.DisplaySearchResult> displayList = new List<AutoSuggestModel.DisplaySearchResult>();
+            List<AutoSuggestModel.DisplayInstrumentResult> displayList = new List<AutoSuggestModel.DisplayInstrumentResult>();
+            AutoSuggestModel.DisplayInstrumentResult headeritem = new AutoSuggestModel.DisplayInstrumentResult();
+            headeritem.CategoryName = "Instrument";
+            headeritem.HasMore = false;
+            headeritem.IsCategory = true;
+            displayList.Add(headeritem);
 
-            foreach (AutoSuggestModel.SearchResult item in resultList)
+            foreach(AutoSuggestModel.Instrument l_item in mInstrumentDB)
             {
-                AutoSuggestModel.DisplaySearchResult   headeritem = new AutoSuggestModel.DisplaySearchResult();
-                headeritem.CategoryName = item.Name;
-                headeritem.HasMore = item.HasMore;
-                headeritem.IsCategory = true;
-                displayList.Add(headeritem);
-
-                foreach (AutoSuggestModel.HitResult hit in item.Hits)
-                {
-                    AutoSuggestModel.DisplaySearchResult rowItem = new AutoSuggestModel.DisplaySearchResult();
-                    rowItem.CategoryName = item.Name;
-                    rowItem.IsCategory = false;
-                    rowItem.Score = hit.Score;
-                    rowItem.Source = hit.Source;
-                    rowItem.Title = hit.Title;
-                    rowItem.Subtitle = hit.Subtitle;
-                    rowItem.Symbol = hit.Symbol;
-                    rowItem.Id = hit.Id;
-                    rowItem.S = hit.S;
-                    rowItem.St = hit.St;
-                    rowItem.ExecuteData = hit.Navigation;
-                    displayList.Add(rowItem);
-                }
+                AutoSuggestModel.DisplayInstrumentResult rowItem = new AutoSuggestModel.DisplayInstrumentResult();
+                rowItem.CategoryName = "Instrument";
+                rowItem.IsCategory = false;
+                rowItem.Title = l_item.Description;
+                rowItem.Subtitle = l_item.Type;
+                rowItem.Symbol = l_item.CodeName;
+                displayList.Add(rowItem);
             }
-
             return displayList;
+
         }
 
     }

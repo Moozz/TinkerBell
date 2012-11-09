@@ -25,28 +25,13 @@ namespace AutoSuggestControl
         public AutoSuggestBox()
         {
             InitializeComponent();
-        }
-      
-        #region UserToken Dependency Property
-
-        public string UserToken
-        {
-            get { return (string)GetValue(UserTokenProperty); }
-            set
+            var vm = this.FindResource("AutoSuggestVM") as AutoSuggestViewModel;
+            if (vm != null)
             {
-                SetValue(UserTokenProperty, value);
-
-                AutoSuggestViewModel vm = this.FindResource("AutoSuggestVM") as AutoSuggestViewModel;
-                if (vm != null)
-                    vm.UserToken = value;
+                vm.InitInstrumentDB();
             }
         }
-
-        // Using a DependencyProperty as the backing store for MaxCompletions.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty UserTokenProperty =
-            DependencyProperty.Register("UserToken", typeof(string), typeof(AutoSuggestBox), new UIPropertyMetadata(""));
-
-        #endregion
+      
 
         #region Text Dependency Property
 
@@ -133,14 +118,14 @@ namespace AutoSuggestControl
         // This method raises the Tap event 
         void RaiseListItemSelectedEvent(object data)
         {
-            var e = new RoutedPropertyChangedEventArgs<object>(null,data, ListItemSelectedEvent);
-            RaiseEvent(e);
+            //var e = new RoutedPropertyChangedEventArgs<object>(null,data, ListItemSelectedEvent);
+            //RaiseEvent(e);
             //Fire event to client
-            if (ListSelected != null)
-            {
-                commandBox.Text = "";
-                ListSelected(data, e);
-            }
+            //if (ListSelected != null)
+            //{
+            //    commandBox.Text = "";
+            //    ListSelected(data, e);
+            //}
         }
         #endregion
     }
