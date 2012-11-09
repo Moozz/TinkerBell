@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using PLAutoSuggestBox;
 
 namespace TinkerBellInput
 {
@@ -50,10 +51,10 @@ namespace TinkerBellInput
         List<Label> parameterDescriptionLabel;
         List<Button> parameterRemoveButton;
 
-        const double textboxParameterKeyWidth = 60;
-        const double labelParameterSaparatorWidth = 10;
-        const double textboxParameterValueWidth = 60;
-        const double labelParameterDescriptionWidth = 120;
+        const double textboxParameterKeyWidth = 50;
+        const double labelParameterSaparatorWidth = 12;
+        const double textboxParameterValueWidth = 50;
+        const double labelParameterDescriptionWidth = 150;
 
         public MainWindow()
         {
@@ -89,8 +90,8 @@ namespace TinkerBellInput
 
             WrapPanel labelPanel = new WrapPanel();
             labelPanel.Orientation = Orientation.Horizontal;
-
-            TextBox textbox = new TextBox();
+            AutoSuggestControl.AutoSuggestBox textbox = new AutoSuggestControl.AutoSuggestBox();
+            //textbox = new TextBox();
             textbox.Width = textboxWidth;
             textbox.Height = textboxHeight;
             
@@ -105,38 +106,51 @@ namespace TinkerBellInput
 
             if (type == Types.Insturments)
             {
-                label.Name = "InstrumentLabel" + noOfInstruments;
-                textbox.Name = "InstrumentTextbox" + noOfInstruments;
-                removeButton.Name = "InstrumentRemoveButton" + noOfInstruments;
+                label.Tag = "InstrumentLabel" + noOfInstruments;
+                textbox.Tag = "InstrumentTextbox" + noOfInstruments;
+                removeButton.Tag = "InstrumentRemoveButton" + noOfInstruments;
                 removeButton.PreviewMouseDown += new MouseButtonEventHandler(removeButton_Instruments_MouseDownEvent);
 
+                // To remove
+                textbox.Text = "" + noOfInstruments;
+                //
+                
                 instrumentLabel.Add(label);
-                instrumentTextBox.Add(textbox);
+                //instrumentTextBox.Add(textbox);
                 instrumentRemoveButton.Add(removeButton);
+
+                while (InstrumentsGrid.RowDefinitions.Count() > noOfInstruments)
+                {
+                    InstrumentsGrid.RowDefinitions.RemoveAt(InstrumentsGrid.RowDefinitions.Count() - 1);
+                }
+
+                Grid.SetColumn(label, 0);
+                Grid.SetRow(label, noOfInstruments);
 
                 RowDefinition rowDef = new RowDefinition();
                 rowDef.Height = GridLength.Auto;
-                InstrumentsGrid.RowDefinitions.Add(rowDef);
-                Grid.SetColumn(label, 0);
-                Grid.SetRow(label, noOfInstruments);
+                InstrumentsGrid.RowDefinitions.Insert(noOfInstruments, rowDef);
 
                 InstrumentsGrid.Children.Add(label);
                 ++noOfInstruments;
             }
             if (type == Types.Fields)
             {
-                label.Name = "FieldLabel" + noOfFields;
-                textbox.Name = "FieldTextbox" + noOfFields;
-                removeButton.Name = "FieldRemoveButton" + noOfFields;
+                label.Tag = "FieldLabel" + noOfFields;
+                textbox.Tag = "FieldTextbox" + noOfFields;
+                removeButton.Tag = "FieldRemoveButton" + noOfFields;
                 removeButton.PreviewMouseDown += new MouseButtonEventHandler(removeButton_Fields_MouseDownEvent);
 
                 fieldLabel.Add(label);
-                fieldTextBox.Add(textbox);
+                //fieldTextBox.Add(textbox);
                 fieldRemoveButton.Add(removeButton);
 
-                RowDefinition rowDef = new RowDefinition();
-                rowDef.Height = new GridLength(inputHeight);
-                FieldsGrid.RowDefinitions.Add(rowDef);
+                if (FieldsGrid.RowDefinitions.Count() <= noOfFields)
+                {
+                    RowDefinition rowDef = new RowDefinition();
+                    rowDef.Height = GridLength.Auto;
+                    FieldsGrid.RowDefinitions.Add(rowDef);
+                }
                 Grid.SetColumn(label, 0);
                 Grid.SetRow(label, noOfFields);
 
@@ -154,6 +168,8 @@ namespace TinkerBellInput
 
             WrapPanel labelPanel = new WrapPanel();
             labelPanel.Orientation = Orientation.Horizontal;
+            labelPanel.Width = inputWidth;
+            labelPanel.Height = inputHeight;
 
             TextBox textboxKey = new TextBox();
             textboxKey.Width = textboxParameterKeyWidth;
@@ -181,13 +197,13 @@ namespace TinkerBellInput
             labelPanel.Children.Add(removeButton);
             label.Content = labelPanel;
 
-            label.Name = "ParameterLabel" + noOfParameters;
-            labelPanel.Name = "ParameterWrapPanel" + noOfInstruments;
-            textboxKey.Name = "ParameterKeyTextbox" + noOfParameters;
-            labelSeparator.Name = "ParameterSeparatorLabel" + noOfParameters;
-            textboxValue.Name = "ParameterValueTextbox" + noOfParameters;
-            labelDescription.Name = "ParamterDescriptionLabel" + noOfParameters;
-            removeButton.Name = "ParameterRemoveButton" + noOfParameters;
+            label.Tag = "ParameterLabel" + noOfParameters;
+            labelPanel.Tag = "ParameterWrapPanel" + noOfInstruments;
+            textboxKey.Tag = "ParameterKeyTextbox" + noOfParameters;
+            labelSeparator.Tag = "ParameterSeparatorLabel" + noOfParameters;
+            textboxValue.Tag = "ParameterValueTextbox" + noOfParameters;
+            labelDescription.Tag = "ParamterDescriptionLabel" + noOfParameters;
+            removeButton.Tag = "ParameterRemoveButton" + noOfParameters;
               
             removeButton.PreviewMouseDown += new MouseButtonEventHandler(removeButton_Parameters_MouseDownEvent);
             textboxKey.PreviewKeyUp += new KeyEventHandler(keyTextbox_Parameters_KeyInput);
@@ -200,9 +216,15 @@ namespace TinkerBellInput
             parameterDescriptionLabel.Add(labelDescription);
             parameterRemoveButton.Add(removeButton);
 
+            while (ParametersGrid.RowDefinitions.Count() > noOfParameters)
+            {
+                ParametersGrid.RowDefinitions.RemoveAt(noOfParameters - 1);
+            }
+
             RowDefinition rowDef = new RowDefinition();
-            rowDef.Height = new GridLength(inputHeight);
+            rowDef.Height = GridLength.Auto;
             ParametersGrid.RowDefinitions.Add(rowDef);
+
             Grid.SetColumn(label, 0);
             Grid.SetRow(label, noOfParameters);
 
@@ -227,13 +249,14 @@ namespace TinkerBellInput
 
         private void removeButton_Instruments_MouseDownEvent(object sender, RoutedEventArgs e)
         {
-            String buttonName = ((Button)sender).Name;
+            String buttonName = ((Button)sender).Tag.ToString();
             int instrumentIndex;
             bool result = Int32.TryParse(buttonName.Substring(22), out instrumentIndex); //InstrumentRemoveButton{index}
 
-            //InstrumentsGrid.Children.RemoveAt(instrumentIndex);
-            InstrumentsGrid.RowDefinitions.RemoveAt(instrumentIndex);
-           
+            //instrumentLabel[instrumentIndex].Tag = null;
+            //instrumentTextBox[instrumentIndex].Tag = null;
+            //instrumentRemoveButton[instrumentIndex].Tag = null;
+
             instrumentLabel.RemoveAt(instrumentIndex);
             instrumentTextBox.RemoveAt(instrumentIndex);
             instrumentRemoveButton.RemoveAt(instrumentIndex);
@@ -242,20 +265,27 @@ namespace TinkerBellInput
 
             for (int i = instrumentIndex; i < noOfInstruments; ++i )
             {
-                instrumentLabel[i].Name = "InstrumentLabel" + i;
-                instrumentTextBox[i].Name = "InstrumentTextbox" + i;
-                instrumentRemoveButton[i].Name = "InstrumentRemoveButton" + i;
+                instrumentLabel[i].Tag = "InstrumentLabel" + i;
+                instrumentTextBox[i].Tag = "InstrumentTextbox" + i;
+                instrumentRemoveButton[i].Tag = "InstrumentRemoveButton" + i;
             }
+
+            //if (instrumentIndex == noOfInstruments)
+            //{
+                InstrumentsGrid.Children.RemoveAt(instrumentIndex);
+            //}
+            //InstrumentsGrid.RowDefinitions.RemoveAt(instrumentIndex);
         }
 
         private void removeButton_Fields_MouseDownEvent(object sender, RoutedEventArgs e)
         {
-            String buttonName = ((Button)sender).Name;
+            String buttonName = ((Button)sender).Tag.ToString();
             int fieldIndex;
             bool result = Int32.TryParse(buttonName.Substring(17), out fieldIndex); //FieldRemoveButton{index}
 
-            //FieldsGrid.Children.RemoveAt(fieldIndex);
-            FieldsGrid.RowDefinitions.RemoveAt(fieldIndex);
+            fieldLabel[fieldIndex].Tag = null;
+            fieldTextBox[fieldIndex].Tag = null;
+            fieldRemoveButton[fieldIndex].Tag = null;
 
             fieldLabel.RemoveAt(fieldIndex);
             fieldTextBox.RemoveAt(fieldIndex);
@@ -269,18 +299,55 @@ namespace TinkerBellInput
                 fieldTextBox[i].Name = "FieldTextbox" + i;
                 fieldRemoveButton[i].Name = "FieldRemoveButton" + i;
             }
+
+            FieldsGrid.Children.RemoveAt(fieldIndex);
+            //FieldsGrid.RowDefinitions.RemoveAt(fieldIndex);
         }
 
         private void removeButton_Parameters_MouseDownEvent(object sender, RoutedEventArgs e)
         {
-            // TODO
+            String buttonName = ((Button)sender).Tag.ToString();
+            int parameterIndex;
+            bool result = Int32.TryParse(buttonName.Substring(21), out parameterIndex); //ParameterRemoveButton{index}
+
+            parameterLabel[parameterIndex].Tag = null;
+            parameterWrapPanel[parameterIndex].Tag = null;
+            parameterKeyTextBox[parameterIndex].Tag = null;
+            parameterSeparatorLabel[parameterIndex].Tag = null;
+            parameterValueTextBox[parameterIndex].Tag = null;
+            parameterDescriptionLabel[parameterIndex].Tag = null;
+            parameterRemoveButton[parameterIndex].Tag = null;
+
+            parameterLabel.RemoveAt(parameterIndex);
+            parameterWrapPanel.RemoveAt(parameterIndex);
+            parameterKeyTextBox.RemoveAt(parameterIndex);
+            parameterSeparatorLabel.RemoveAt(parameterIndex);
+            parameterValueTextBox.RemoveAt(parameterIndex);
+            parameterDescriptionLabel.RemoveAt(parameterIndex);
+            parameterRemoveButton.RemoveAt(parameterIndex);
+
+            --noOfParameters;
+
+            for (int i = parameterIndex; i < noOfParameters; ++i )
+            {
+                parameterLabel[i].Tag = "ParameterLabel" + i;
+                parameterWrapPanel[i].Tag = "ParameterWrapPanel" + i;
+                parameterKeyTextBox[i].Tag = "ParameterKeyTextbox" + i;
+                parameterSeparatorLabel[i].Tag = "ParameterSeparatorLabel" + i;
+                parameterValueTextBox[i].Tag = "ParameterValueTextbox" + i;
+                parameterDescriptionLabel[i].Tag = "ParamterDescriptionLabel" + i;
+                parameterRemoveButton[i].Tag = "ParameterRemoveButton" + i;
+            }
+
+            ParametersGrid.Children.RemoveAt(parameterIndex);
+            //ParametersGrid.RowDefinitions.RemoveAt(parameterIndex);
         }
 
         private void keyTextbox_Parameters_KeyInput(object sender, KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Enter)
             {
-                String textboxName = ((TextBox)sender).Name;
+                String textboxName = ((TextBox)sender).Tag.ToString();
                 int parameterIndex;
                 bool result = Int32.TryParse(textboxName.Substring(19), out parameterIndex); //ParameterKeyTextbox{index}
 
