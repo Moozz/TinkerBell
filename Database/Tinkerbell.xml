@@ -8,9 +8,9 @@
 		<item Code="PTT.BK" Description="PTT PCL" Type="Ordinary Share"/>
 		<item Code="AAPL.O" Description="Apple Inc" Type="Ordinary Share"/>
 		<item Code="EUR=" Description="Euro" Type="FX Spot Rate"/>
-		<item Code="JPY=" Description="Japan Yen;" Type="FX Spot Rate"/>
-		<item Code="THB=" Description="Thai Baht;" Type="FX Spot Rate"/>
-		<item Code="USD=" Description="US Dollar;" Type="FX Spot Rate"/>
+		<item Code="JPY=" Description="Japan Yen" Type="FX Spot Rate"/>
+		<item Code="THB=" Description="Thai Baht" Type="FX Spot Rate"/>
+		<item Code="USD=" Description="US Dollar" Type="FX Spot Rate"/>
 		<item Code="HKD=" Description="Hong Kong Dollar" Type="FX Spot Rate"/>
 	</Instrument>
 	
@@ -19,9 +19,9 @@
 		<item Code="ASK" Description="ASK" Type="Real-Time"/>
 		<item Code="CURRENCY" Description="CURRENCY" Type="Real-Time"/>
 		<item Code="CLOSE" Description="CLOSE" Type="Real-Time"/>
-		<item Code="RF.G.Compname" Description="RF.G.Compname" Type="Reference"/>
-		<item Code="RF.IS.NetSales" Description="RF.IS.NetSales" Type="Reference"/>
-		<item Code="RI.ID.RIC" Description="RI.ID.RIC" Type="Reference"/>
+		<item Code="RF.G.Compname" Description="Company Name" Type="Reference"/>
+		<item Code="RF.IS.NetSales" Description="Net Sales" Type="Reference"/>
+		<item Code="RI.ID.RIC" Description="Reuters Identification Code" Type="Reference"/>
 	</Field>
 	
 	<Parameter>
