@@ -29,6 +29,8 @@ namespace TinkerBell
             l_parameter.AddInstrument("EUR=");
             l_parameter.AddParameter("CH", "In");
             l_parameter.AddParameter("CH", "Fd");
+            l_parameter.AddField("ASK");
+            l_parameter.AddInstrument("JPY=");
             foreach (string l_each in l_parameter.Instruments)
             {
                 Console.WriteLine(l_each);
