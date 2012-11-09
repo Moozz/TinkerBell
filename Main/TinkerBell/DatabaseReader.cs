@@ -40,6 +40,22 @@ namespace TinkerBell
             return FindAttribute("Parameter", a_parameter, "Description1");
         }
 
+        static public string FindValueDescription(string a_code, string a_value)
+        {
+            XmlDocument l_doc = new XmlDocument();
+            l_doc.Load(s_databaseXmlName);
+            string l_query = "/metadata/Parameter/item[@Code='" + a_code + "']/value[@Value='" + a_value + "']";
+            XmlNode l_xmlNode = l_doc.SelectSingleNode(l_query);
+            if (l_xmlNode == null)
+                return "";
+
+            XmlAttribute l_attribute = l_xmlNode.Attributes["Description"];
+            if (l_attribute == null)
+                return "";
+
+            return l_attribute.Value;
+        }
+
         static private string FindAttribute(string a_element, string a_code, string a_attribute)
         {
             XmlDocument l_doc = new XmlDocument();
