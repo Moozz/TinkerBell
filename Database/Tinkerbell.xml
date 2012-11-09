@@ -15,8 +15,8 @@
 	</Instrument>
 	
 	<Field>
-		<item Code="BID" Description="BID" Type="Real-Time"/>
-		<item Code="ASK" Description="ASK" Type="Real-Time"/>
+		<item Code="BID" Description="Bid Price" Type="Real-Time"/>
+		<item Code="ASK" Description="Ask Price" Type="Real-Time"/>
 		<item Code="CURRENCY" Description="CURRENCY" Type="Real-Time"/>
 		<item Code="CLOSE" Description="CLOSE" Type="Real-Time"/>
 		<item Code="RF.G.Compname" Description="Company Name" Type="Reference"/>
