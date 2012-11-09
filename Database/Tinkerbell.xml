@@ -15,13 +15,13 @@
 	</Instrument>
 	
 	<Field>
-		<item Code="BID" Description="Bid Price" Type="Real-Time"/>
-		<item Code="ASK" Description="Ask Price" Type="Real-Time"/>
-		<item Code="CURRENCY" Description="Currency" Type="Real-Time"/>
-		<item Code="CLOSE" Description="Close" Type="Real-Time"/>
-		<item Code="RF.G.Compname" Description="Company Name" Type="Reference"/>
-		<item Code="RF.IS.NetSales" Description="Net Sales" Type="Reference"/>
-		<item Code="RI.ID.RIC" Description="Reuters Identification Code" Type="Reference"/>
+		<item Code="BID" Description="Bid Price" Type="Real-Time Data"/>
+		<item Code="ASK" Description="Ask Price" Type="Real-Time Data"/>
+		<item Code="CURRENCY" Description="Currency" Type="Real-Time Data"/>
+		<item Code="CLOSE" Description="Close" Type="Real-Time Data"/>
+		<item Code="RF.G.Compname" Description="Company Name" Type="Reference Data"/>
+		<item Code="RF.IS.NetSales" Description="Net Sales" Type="Reference Data"/>
+		<item Code="RI.ID.RIC" Description="Reuters Identification Code" Type="Reference Data"/>
 	</Field>
 	
 	<Parameter>
