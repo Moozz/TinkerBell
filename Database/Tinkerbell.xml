@@ -7,11 +7,11 @@
 		<item Code="MSFT.O" Description="Microsoft Corp" Type="Ordinary Share"/>
 		<item Code="PTT.BK" Description="PTT PCL" Type="Ordinary Share"/>
 		<item Code="AAPL.O" Description="Apple Inc" Type="Ordinary Share"/>
-		<item Code="EUR=" Description="&quot;&quot;" Type="FX Spot Rate"/>
-		<item Code="JPY=" Description="&quot;&quot;" Type="FX Spot Rate"/>
-		<item Code="THB=" Description="&quot;&quot;" Type="FX Spot Rate"/>
-		<item Code="USD=" Description="&quot;&quot;" Type="FX Spot Rate"/>
-		<item Code="HKD=" Description="&quot;&quot;" Type="FX Spot Rate"/>
+		<item Code="EUR=" Description="Euro" Type="FX Spot Rate"/>
+		<item Code="JPY=" Description="Japan Yen;" Type="FX Spot Rate"/>
+		<item Code="THB=" Description="&Thai Baht;" Type="FX Spot Rate"/>
+		<item Code="USD=" Description="US Dollar;" Type="FX Spot Rate"/>
+		<item Code="HKD=" Description="Hong Kong Dollar" Type="FX Spot Rate"/>
 	</Instrument>
 	
 	<Filed>
