@@ -23,5 +23,12 @@ namespace AutoSuggestTest
         {
             InitializeComponent();
         }
+
+        private void TestAutoSuggest_ListItemSelected(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            MessageBox.Show("Test");
+        }
+        
+        
     }
 }

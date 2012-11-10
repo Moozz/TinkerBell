@@ -11,6 +11,7 @@ using System.Xml.XPath;
 using AutoSuggestControl.Model;
 using RestSharp;
 using RestSharp.Contrib;
+using System.Windows.Data;
 
 
 
@@ -105,42 +106,6 @@ namespace AutoSuggestControl
 
         #endregion methods
 
-
-
-        //additional for web service request.
-        private string _apiKey;
-        public string ApiKey
-        {
-            get
-            {
-                return _apiKey;
-            }
-
-            set
-            {
-                _apiKey = value;
-            }
-        }
-
-        private RestClient _restClient = null;
-
-        private string _serverUrl;
-
-        public string ServerUrl
-        {
-            get
-            {
-                return _serverUrl;
-            }
-
-            set
-            {
-                _serverUrl = value;
-                _restClient = new RestClient(_serverUrl);
-            }
-        }
-            
-      
         private List<AutoSuggestModel.Instrument> mInstrumentDB;
 
         public void InitInstrumentDB()
@@ -148,7 +113,7 @@ namespace AutoSuggestControl
             try
             {
                 //this is a string representing where the xml file is located
-                string xmlFileName = "C:\\Dev\\ExcelInova\\Database\\Thinkerbell.xml";
+                string xmlFileName = "C:\\Dev\\ExcelInova\\Database\\Tinkerbell.xml";
 
                 // create an XPathDocument object
                 XPathDocument xmlPathDoc = new XPathDocument(xmlFileName);
@@ -182,40 +147,49 @@ namespace AutoSuggestControl
             }
         }
 
+        private List<AutoSuggestModel.Instrument> InstrumentFilter(string queryText)
+        {
+            SortedList<int, List<AutoSuggestModel.Instrument>> l_sortedInstrument = new SortedList<int, List<AutoSuggestModel.Instrument>>();   
+            foreach (AutoSuggestModel.Instrument l_item in mInstrumentDB)
+            {
+                string l_target = l_item.CodeName + l_item.Description;
+                string l_upperTarget = l_target.ToUpper();
+                string l_upperSource = queryText.ToUpper();
+                int l_index = l_upperTarget.IndexOf(l_upperSource);
+                if (l_index >= 0)
+                {
+                    int l_sortedIndex = l_sortedInstrument.IndexOfKey(l_index);
+                    if (l_sortedIndex == -1)
+                    {
+                        l_sortedInstrument[l_index] = new List<AutoSuggestModel.Instrument>();
+                    }
+                    l_sortedInstrument[l_index].Add(l_item);
+                }
+            }
 
+            List<AutoSuggestModel.Instrument> l_instrumentList = new List<AutoSuggestModel.Instrument>();
+            foreach (KeyValuePair<int, List<AutoSuggestModel.Instrument>> l_items in l_sortedInstrument)
+            {
+                foreach (AutoSuggestModel.Instrument l_item in l_items.Value)
+                {
+                    l_instrumentList.Add(l_item);
+                }
+            }
+                
+            return l_instrumentList;
+        }
 
         private void MakeAutosuggestRequest(string queryText)
         {
-            //if (_restClient == null)
-            //{   //assign default URL to aint2
-            //    //ServerUrl ="https://amers1.cps.cp.icp2.mpp.extranet.reutest.biz";
-            //    return;
-            //}
-
-            //var request = CreateRestRequest(queryText);
-            //asyncHandle =  _restClient.ExecuteAsync<AutoSuggestModel.SearchResultList>(request, response =>
-            //{
-            //    if (response != null && response.StatusCode == HttpStatusCode.OK)
-            //    {
-            //        if (response.Data != null)
-            //        {
-            //            Debug.Print("Got Response from webservice  row count = {0}", response.Data.Result.Count);
-            //            mQueryCollection = DataToDisplayResult(response.Data.Result);
-            //            this.OnPropertyChanged(typeof(AutoSuggestViewModel).GetProperty("QueryCollection").Name);
-            //        }
-            //        else
-            //        {
-            //             AddDummyResult(queryText, false);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (response != null)
-            //            Console.WriteLine("Error : {0} ", response.Content);
-            //    }
-            //    //asyncHandle = null;
-            //});
-            mQueryCollection = DataToDisplayResult();
+            List<AutoSuggestModel.Instrument> instrumentList = InstrumentFilter(queryText);
+            if (instrumentList.Count > 0)
+            {
+                mQueryCollection = DataToDisplayResult(instrumentList);
+            }
+            else
+            {
+                mQueryCollection = new List<AutoSuggestModel.Instrument>();
+            }
             this.OnPropertyChanged(typeof(AutoSuggestViewModel).GetProperty("QueryCollection").Name);
         }
 
@@ -230,21 +204,13 @@ namespace AutoSuggestControl
                 Type = ""
             });
 
-           if (IsWaiting)
-           {
-               mWaitMessage = DataToDisplayResult();
-               this.OnPropertyChanged(typeof(AutoSuggestViewModel).GetProperty("WaitMessage").Name);
-           }
-           else
-           {
-               mQueryCollection = DataToDisplayResult();
-               this.OnPropertyChanged(typeof (AutoSuggestViewModel).GetProperty("QueryCollection").Name);                
-           }
+            mWaitMessage = DataToDisplayResult(dummyResult);
+            this.OnPropertyChanged(typeof(AutoSuggestViewModel).GetProperty("WaitMessage").Name);
 
         }
 
-        private List<AutoSuggestModel.DisplayInstrumentResult> DataToDisplayResult()
-        {
+        private List<AutoSuggestModel.DisplayInstrumentResult> DataToDisplayResult( List<AutoSuggestModel.Instrument> a_instrumentList)
+        {         
             List<AutoSuggestModel.DisplayInstrumentResult> displayList = new List<AutoSuggestModel.DisplayInstrumentResult>();
             AutoSuggestModel.DisplayInstrumentResult headeritem = new AutoSuggestModel.DisplayInstrumentResult();
             headeritem.CategoryName = "Instrument";
@@ -252,7 +218,7 @@ namespace AutoSuggestControl
             headeritem.IsCategory = true;
             displayList.Add(headeritem);
 
-            foreach(AutoSuggestModel.Instrument l_item in mInstrumentDB)
+            foreach (AutoSuggestModel.Instrument l_item in a_instrumentList)
             {
                 AutoSuggestModel.DisplayInstrumentResult rowItem = new AutoSuggestModel.DisplayInstrumentResult();
                 rowItem.CategoryName = "Instrument";
@@ -263,7 +229,6 @@ namespace AutoSuggestControl
                 displayList.Add(rowItem);
             }
             return displayList;
-
         }
 
     }

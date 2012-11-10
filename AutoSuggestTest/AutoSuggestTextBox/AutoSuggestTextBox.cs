@@ -261,8 +261,8 @@ namespace AutoSuggestTextBox
             if (this.listBox != null)
                 this.listBox.SelectedIndex = -1;
 
-            if (this.listBox.Items.Count == 0)
-                this.InternalClosePopup();
+            //if (this.listBox.Items.Count == 0)
+            //    this.InternalClosePopup();
         }
 
         protected override void OnTextChanged(TextChangedEventArgs e)
@@ -278,16 +278,16 @@ namespace AutoSuggestTextBox
             {
                 this.InternalClosePopup();
             }
-            else if (this.listBox != null)
+            else if (this.listBox != null) 
             {
                 if (this.filter != null)
                     this.listBox.Items.Filter = this.FilterFunc;
 
                 if (this.popup != null)
                 {
-                    //if (this.listBox.Items.Count == 0)
-                    //    this.InternalClosePopup();
-                    //else
+                    if (this.listBox.Items.Count == 0)
+                        this.InternalClosePopup();
+                    else
                         this.InternalOpenPopup();
                 }
             }
@@ -406,7 +406,9 @@ namespace AutoSuggestTextBox
             this.popup.IsOpen = true;
 
             if (this.listBox != null)
+            {
                 this.listBox.SelectedIndex = -1;
+            }
         }
 
         /// <summary>

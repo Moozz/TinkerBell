@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace AutoSuggestControl
 {
-    //A delegate type for hooking up change notifications.
-    public delegate void ListItemSelectedEventHandler(object sender, EventArgs e);
-
     /// <summary>
     /// Interaction logic for AutoSuggestBox.xaml
     /// </summary>
@@ -55,42 +52,7 @@ namespace AutoSuggestControl
 
         #endregion
 
-        #region AutoSuggestServerUrl Dependency Property
-        public string AutoSuggestServerUrl
-        {
-            get { return (string)GetValue(AutoSuggestServerUrlProperty); }
-            set
-            {
-                SetValue(AutoSuggestServerUrlProperty, value);
 
-                var vm = this.FindResource("AutoSuggestVM") as AutoSuggestViewModel;
-                if (vm != null)
-                    vm.ServerUrl = value;
-            }
-        }
-        
-        public static readonly DependencyProperty AutoSuggestServerUrlProperty =
-            DependencyProperty.Register("AutoSuggestServerUrl", typeof(string), typeof(AutoSuggestBox), new UIPropertyMetadata(""));
-        #endregion
-
-        #region AutoSuggestApiKey Dependency Property
-        public string AutoSuggestApiKey
-        {
-            get { return (string)GetValue(AutoSuggestApiKeyProperty); }
-            set
-            {
-                SetValue(AutoSuggestApiKeyProperty, value);
-
-                var vm = this.FindResource("AutoSuggestVM") as AutoSuggestViewModel;
-                if (vm != null)
-                    vm.ApiKey = value;
-            }
-        }
-
-        public static readonly DependencyProperty AutoSuggestApiKeyProperty =
-            DependencyProperty.Register("AutoSuggestApiKey", typeof(string), typeof(AutoSuggestBox), new UIPropertyMetadata(""));
-
-        #endregion
 
         private void commandBox_ListItemSelected(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
@@ -98,10 +60,6 @@ namespace AutoSuggestControl
         }
 
         #region "Event"
-        //[PLink] An event that clients can use to be notified whenever the
-        // elements of the list change.
-        public event ListItemSelectedEventHandler ListSelected;
-
         private static readonly RoutedEvent ListItemSelectedEvent =
                             EventManager.RegisterRoutedEvent("ListItemSelected", RoutingStrategy.Bubble,
                             typeof(RoutedPropertyChangedEventHandler<object>), typeof(AutoSuggestBox));
@@ -118,14 +76,8 @@ namespace AutoSuggestControl
         // This method raises the Tap event 
         void RaiseListItemSelectedEvent(object data)
         {
-            //var e = new RoutedPropertyChangedEventArgs<object>(null,data, ListItemSelectedEvent);
-            //RaiseEvent(e);
-            //Fire event to client
-            //if (ListSelected != null)
-            //{
-            //    commandBox.Text = "";
-            //    ListSelected(data, e);
-            //}
+            var e = new RoutedPropertyChangedEventArgs<object>(null,data, ListItemSelectedEvent);
+            RaiseEvent(e);
         }
         #endregion
     }
