@@ -8,55 +8,55 @@
 		<item Code="PTT.BK" Description="PTT PCL" Type="Ordinary Share"/>
 		<item Code="AAPL.O" Description="Apple Inc" Type="Ordinary Share"/>
 		<item Code="EUR=" Description="Euro" Type="FX Spot Rate"/>
-		<item Code="JPY=" Description="Japan Yen" Type="FX Spot Rate"/>
+		<item Code="JPY=" Description="Japanese Yen" Type="FX Spot Rate"/>
 		<item Code="THB=" Description="Thai Baht" Type="FX Spot Rate"/>
 		<item Code="USD=" Description="US Dollar" Type="FX Spot Rate"/>
 		<item Code="HKD=" Description="Hong Kong Dollar" Type="FX Spot Rate"/>
 	</Instrument>
 	
 	<Field>
-		<item Code="BID" Description="BID" Type="Real-Time"/>
-		<item Code="ASK" Description="ASK" Type="Real-Time"/>
-		<item Code="CURRENCY" Description="CURRENCY" Type="Real-Time"/>
-		<item Code="CLOSE" Description="CLOSE" Type="Real-Time"/>
-		<item Code="RF.G.Compname" Description="Company Name" Type="Reference"/>
-		<item Code="RF.IS.NetSales" Description="Net Sales" Type="Reference"/>
-		<item Code="RI.ID.RIC" Description="Reuters Identification Code" Type="Reference"/>
+		<item Code="BID" Description="Bid Price" Type="Real-Time Data"/>
+		<item Code="ASK" Description="Ask Price" Type="Real-Time Data"/>
+		<item Code="CURRENCY" Description="Currency" Type="Real-Time Data"/>
+		<item Code="CLOSE" Description="Close" Type="Real-Time Data"/>
+		<item Code="RF.G.Compname" Description="Company Name" Type="Reference Data"/>
+		<item Code="RF.IS.NetSales" Description="Net Sales" Type="Reference Data"/>
+		<item Code="RI.ID.RIC" Description="Reuters Identification Code" Type="Reference Data"/>
 	</Field>
 	
 	<Parameter>
-		<item Code="START" Description1="Start to retrieve data at {0}" Description2="Start to retrieve data at {0} " Type="Refresh">
+		<item Code="START" Description1="start to retrieve data at {0}" Description2="Start to retrieve data at {0} " Type="Refresh">
 		</item>
 		
-		<item Code="END" Description1="Stop update at {0}" Description2="Stop update at {0}" Type="Refresh">
+		<item Code="END" Description1="stop update at {0}" Description2="Stop update at {0}" Type="Refresh">
 		</item>
 		
-		<item Code="FRQ" Description1="Refresh every {0}" Description2="Refresh every {0}" Type="Refresh">
-			<value Value="S" Desc="{0} Second"/>
-			<value Value="M" Desc="{0} Minute"/>
-			<value Value="H" Desc="{0} Hour"/>
+		<item Code="FRQ" Description1="refresh every {0}" Description2="Refresh every {0}" Type="Refresh">
+			<value Value="S" Description="{0} Second"/>
+			<value Value="M" Description="{0} Minute"/>
+			<value Value="H" Description="{0} Hour"/>
 		</item>
 		
-		<item Code="CH" Description1="Display {0} as Column Header" Description2="Display {0} as Column Header" Type="Display">
-			<value Value="In" Desc="Instrument"/>
-			<value Value="Fd" Desc="Field"/>
+		<item Code="CH" Description1="display {0} as Column Header" Description2="Display {0} as Column Header" Type="Display">
+			<value Value="In" Description="instrument"/>
+			<value Value="Fd" Description="field"/>
 		</item>
 		
-		<item Code="RH" Description1="Display {0} as Row Header" Description2="Display {0} as Row Header" Type="Display">
-			<value Value="In" Desc="Instrument"/>
-			<value Value="Fd" Desc="Field"/>
+		<item Code="RH" Description1="display {0} as Row Header" Description2="Display {0} as Row Header" Type="Display">
+			<value Value="In" Description="instrument"/>
+			<value Value="Fd" Description="field"/>
 		</item>
 		
-		<item Code="TRANSPOSE" Description1="Display data in {0}" Description2="Display data in {0}" Type="Display">
-			<value Value="Y" Desc="Verticle Layout"/>
-			<value Value="Yes" Desc="Verticle Layout"/>
-			<value Value="N" Desc="Horizontal Layout"/>
-			<value Value="No" Desc="Horizontal Layout"/>
+		<item Code="TRANSPOSE" Description1="display data in {0}" Description2="Display data in {0}" Type="Display">
+			<value Value="Y" Description="verticle layout"/>
+			<value Value="Yes" Description="verticle layout"/>
+			<value Value="N" Description="horizontal layout"/>
+			<value Value="No" Description="horizontal layout"/>
 		</item>
 		
-		<item Code="SORT" Description1="Data will order in {0} order" Description2="Data will order in {0} order" Type="Display">
-			<value Value="A" Desc="Ascending"/>
-			<value Value="D" Desc="Descending"/>
+		<item Code="SORT" Description1="data will order in {0} order" Description2="Data will order in {0} order" Type="Display">
+			<value Value="A" Description="ascending"/>
+			<value Value="D" Description="descending"/>
 		</item>
 	</Parameter>
 </metadata>
