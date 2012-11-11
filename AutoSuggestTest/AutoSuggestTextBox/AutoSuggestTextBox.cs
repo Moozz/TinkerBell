@@ -261,8 +261,8 @@ namespace AutoSuggestTextBox
             if (this.listBox != null)
                 this.listBox.SelectedIndex = -1;
 
-            //if (this.listBox.Items.Count == 0)
-            //    this.InternalClosePopup();
+            if (this.listBox.Items.Count == 0)
+                this.InternalClosePopup();
         }
 
         protected override void OnTextChanged(TextChangedEventArgs e)

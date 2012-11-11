@@ -22,13 +22,43 @@ namespace AutoSuggestControl
         public AutoSuggestBox()
         {
             InitializeComponent();
+        }
+      
+        public void InitInstrumentAutoSuggest()
+        {
             var vm = this.FindResource("AutoSuggestVM") as AutoSuggestViewModel;
             if (vm != null)
             {
                 vm.InitInstrumentDB();
             }
         }
-      
+
+        public void InitFieldAutoSuggest()
+        {
+            var vm = this.FindResource("AutoSuggestVM") as AutoSuggestViewModel;
+            if (vm != null)
+            {
+                vm.InitFieldDB();
+            }
+        }
+
+        public void InitOptionAutoSuggest()
+        {
+            var vm = this.FindResource("AutoSuggestVM") as AutoSuggestViewModel;
+            if (vm != null)
+            {
+                vm.InitOptionDB();
+            }
+        }
+
+        public void InitOptionValueAutoSuggest(string aOptionName)
+        {
+            var vm = this.FindResource("AutoSuggestVM") as AutoSuggestViewModel;
+            if (vm != null)
+            {
+                vm.InitOptionValueDB(aOptionName);
+            }
+        }
 
         #region Text Dependency Property
 

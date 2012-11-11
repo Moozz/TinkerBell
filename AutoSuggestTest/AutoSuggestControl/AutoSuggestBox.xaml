@@ -33,7 +33,7 @@
             </CollectionViewSource.GroupDescriptions>
             <CollectionViewSource.Source>
                 <PriorityBinding>
-                    <Binding Source="{StaticResource AutoSuggestVM}" Path="QueryCollection" IsAsync="True"/>
+                    <Binding Source="{StaticResource AutoSuggestVM}" Path="QueryCollection" />
                     <Binding Source="{StaticResource AutoSuggestVM}" Path="WaitMessage"/>
                 </PriorityBinding>
             </CollectionViewSource.Source>

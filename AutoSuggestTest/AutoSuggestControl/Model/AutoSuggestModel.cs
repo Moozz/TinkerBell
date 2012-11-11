@@ -14,6 +14,26 @@ namespace AutoSuggestControl.Model
             public string Type { get; set; }
         }
 
+        public class Field
+        {
+            public string CodeName { get; set; }
+            public string Description { get; set; }
+            public string Type { get; set; }
+        }
+
+        public class Option
+        {
+            public string CodeName { get; set; }
+            public string Description { get; set; }
+            public string Type { get; set; }
+        }
+
+        public class OptionValue
+        {
+            public string CodeName { get; set; }
+            public string Description { get; set; }
+        }
+
         // A consolidate data structor for binding data to list
         public class DisplayInstrumentResult
         {

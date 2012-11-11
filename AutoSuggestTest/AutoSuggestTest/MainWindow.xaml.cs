@@ -22,6 +22,7 @@ namespace AutoSuggestTest
         public MainWindow()
         {
             InitializeComponent();
+            TestAutoSuggest.InitOptionValueAutoSuggest("TRANSPOSE");
         }
 
         private void TestAutoSuggest_ListItemSelected(object sender, RoutedPropertyChangedEventArgs<object> e)

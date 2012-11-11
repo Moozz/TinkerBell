@@ -50,6 +50,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModel\FieldSuggestion.cs" />
+    <Compile Include="ViewModel\InstrumentSuggestion.cs" />
+    <Compile Include="ViewModel\ISuggestion.cs" />
+    <Compile Include="ViewModel\OptionSuggestion.cs" />
+    <Compile Include="ViewModel\OptionValueSuggestion.cs" />
     <Compile Include="ViewModel\RowTemplateSelector.cs" />
     <Page Include="AutoSuggestBox.xaml">
       <Generator>MSBuild:Compile</Generator>
