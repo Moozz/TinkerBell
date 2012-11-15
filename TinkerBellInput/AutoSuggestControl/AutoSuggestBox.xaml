@@ -8,8 +8,7 @@
              xmlns:viewmodel="clr-namespace:AutoSuggestControl.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300"
-             Background="Transparent"
-             >
+             Background="Transparent">
     
     <UserControl.Resources>
 
@@ -33,7 +32,7 @@
             </CollectionViewSource.GroupDescriptions>
             <CollectionViewSource.Source>
                 <PriorityBinding>
-                    <Binding Source="{StaticResource AutoSuggestVM}" Path="QueryCollection" IsAsync="True"/>
+                    <Binding Source="{StaticResource AutoSuggestVM}" Path="QueryCollection" />
                     <Binding Source="{StaticResource AutoSuggestVM}" Path="WaitMessage"/>
                 </PriorityBinding>
             </CollectionViewSource.Source>
@@ -90,7 +89,7 @@
             ItemContainerStyle="{StaticResource MyContainerStyle}"                   
             Binding="{Binding Symbol, Mode=OneWay}" 
             MaxCompletions="15"
-            ListItemSelected="commandBox_ListItemSelected" Margin="0" Padding="0" />
+            ListItemSelected="commandBox_ListItemSelected" Margin="0" Padding="0" TabIndex="0" />
        
     </Grid>
 </UserControl>

@@ -91,7 +91,18 @@ namespace TinkerBellInput
             WrapPanel labelPanel = new WrapPanel();
             labelPanel.Orientation = Orientation.Horizontal;
             AutoSuggestControl.AutoSuggestBox textbox = new AutoSuggestControl.AutoSuggestBox();
-            //textbox = new TextBox();
+            switch(type)
+            {
+                case Types.Insturments:
+                    textbox.InitInstrumentAutoSuggest();
+                    break;
+                case Types.Fields:
+                    textbox.InitFieldAutoSuggest();
+                    break;
+                default:
+                    break;
+            }
+  
             textbox.Width = textboxWidth;
             textbox.Height = textboxHeight;
             
@@ -112,9 +123,9 @@ namespace TinkerBellInput
                 removeButton.PreviewMouseDown += new MouseButtonEventHandler(removeButton_Instruments_MouseDownEvent);
 
                 // To remove
-                textbox.Text = "" + noOfInstruments;
+                //textbox.Text = "" + noOfInstruments;
                 //
-                
+               
                 instrumentLabel.Add(label);
                 //instrumentTextBox.Add(textbox);
                 instrumentRemoveButton.Add(removeButton);
@@ -131,7 +142,7 @@ namespace TinkerBellInput
                 rowDef.Height = GridLength.Auto;
                 InstrumentsGrid.RowDefinitions.Insert(noOfInstruments, rowDef);
 
-                InstrumentsGrid.Children.Add(label);
+                InstrumentsGrid.Children.Add(label);           
                 ++noOfInstruments;
             }
             if (type == Types.Fields)
@@ -357,5 +368,6 @@ namespace TinkerBellInput
                 parameterWrapPanel[parameterIndex].Children.Add(parameterRemoveButton[parameterIndex]);
             }
         }
+
     }
 }

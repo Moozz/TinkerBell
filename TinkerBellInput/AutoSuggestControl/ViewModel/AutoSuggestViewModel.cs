@@ -27,7 +27,9 @@ namespace AutoSuggestControl
         private string mQueryText = string.Empty;
 
         private IEnumerable mQueryCollection = null;
-      
+
+        private ISuggestion mSuggestion;
+
         #endregion fields
 
         #region INotifyPropertyChanged Members
@@ -36,9 +38,6 @@ namespace AutoSuggestControl
 
         #region properties       
 
-        /// <summary>
-        /// Get a text drop-down indicating to the user that the system is busy...
-        /// </summary>
         public IEnumerable WaitMessage
         {
             get
@@ -52,10 +51,6 @@ namespace AutoSuggestControl
             }
         }
 
-        /// <summary>
-        /// Get/set the current text that is used in the query part of the drop-down
-        /// section to determine the list of suggestions...
-        /// </summary>
         public string QueryText
         {
             get
@@ -78,9 +73,6 @@ namespace AutoSuggestControl
             }
         }
 
-        /// <summary>
-        /// Get list of suggestions matching the string that a user had typed.
-        /// </summary>
         public IEnumerable QueryCollection
         {
             get
@@ -88,10 +80,11 @@ namespace AutoSuggestControl
                 return this.mQueryCollection;
             }
         }
+
         #endregion properties
 
         #region methods
-        
+
         /// <summary>
         /// Standard method of the <seealso cref="INotifyPropertyChanged"/> interface
         /// which is used to tell subscribers of the ViewModel when the value of a property
@@ -106,90 +99,34 @@ namespace AutoSuggestControl
 
         #endregion methods
 
-        private List<AutoSuggestModel.Instrument> mInstrumentDB;
-
         public void InitInstrumentDB()
         {
-            try
-            {
-                //this is a string representing where the xml file is located
-                string xmlFileName = "D:\\TinkerBell\\Database\\Tinkerbell.xml";
-
-                // create an XPathDocument object
-                XPathDocument xmlPathDoc = new XPathDocument(xmlFileName);
-
-                // create a navigator for the xpath doc
-                XPathNavigator xNav = xmlPathDoc.CreateNavigator();
-
-                //navigate and print the document
-                XPathNodeIterator xPathIt = xNav.Select("//Instrument/item");
-                if (xPathIt.Count > 0)
-                {
-                    mInstrumentDB = new List<AutoSuggestModel.Instrument>();
-                    while (xPathIt.MoveNext())
-                    {
-                        string l_code = xPathIt.Current.GetAttribute("Code", "");
-                        string l_description = xPathIt.Current.GetAttribute("Description", "");
-                        string l_type = xPathIt.Current.GetAttribute("Type", "");
-                        mInstrumentDB.Add(new AutoSuggestModel.Instrument()
-                            {
-                                CodeName = l_code,
-                                Description = l_description,
-                                Type = l_type
-                            });
-
-                    }
-                }
-            }
-            catch (XmlException e)
-            {
-                Console.WriteLine("Exception: " + e.ToString());
-            }
+             mSuggestion = new CInstrumentSuggestion();
+             mSuggestion.Initial();
         }
 
-        private List<AutoSuggestModel.Instrument> InstrumentFilter(string queryText)
+        public void InitFieldDB()
         {
-            SortedList<int, List<AutoSuggestModel.Instrument>> l_sortedInstrument = new SortedList<int, List<AutoSuggestModel.Instrument>>();   
-            foreach (AutoSuggestModel.Instrument l_item in mInstrumentDB)
-            {
-                string l_target = l_item.CodeName + l_item.Description;
-                string l_upperTarget = l_target.ToUpper();
-                string l_upperSource = queryText.ToUpper();
-                int l_index = l_upperTarget.IndexOf(l_upperSource);
-                if (l_index >= 0)
-                {
-                    int l_sortedIndex = l_sortedInstrument.IndexOfKey(l_index);
-                    if (l_sortedIndex == -1)
-                    {
-                        l_sortedInstrument[l_index] = new List<AutoSuggestModel.Instrument>();
-                    }
-                    l_sortedInstrument[l_index].Add(l_item);
-                }
-            }
+            mSuggestion = new CFieldSuggestion();
+            mSuggestion.Initial();
+        }
 
-            List<AutoSuggestModel.Instrument> l_instrumentList = new List<AutoSuggestModel.Instrument>();
-            foreach (KeyValuePair<int, List<AutoSuggestModel.Instrument>> l_items in l_sortedInstrument)
-            {
-                foreach (AutoSuggestModel.Instrument l_item in l_items.Value)
-                {
-                    l_instrumentList.Add(l_item);
-                }
-            }
-                
-            return l_instrumentList;
+        public void InitOptionDB()
+        {
+            mSuggestion = new COptionSuggestion();
+            mSuggestion.Initial();
+        }
+
+        public void InitOptionValueDB(string aOptionName)
+        {
+            mSuggestion = new COptionValueSuggestion(aOptionName);
+            mSuggestion.Initial();
         }
 
         private void MakeAutosuggestRequest(string queryText)
         {
-            List<AutoSuggestModel.Instrument> instrumentList = InstrumentFilter(queryText);
-            if (instrumentList.Count > 0)
-            {
-                mQueryCollection = DataToDisplayResult(instrumentList);
-            }
-            else
-            {
-                mQueryCollection = new List<AutoSuggestModel.Instrument>();
-            }
+            mSuggestion.Filter(queryText);
+            mQueryCollection = mSuggestion.DataToDisplayResult();
             this.OnPropertyChanged(typeof(AutoSuggestViewModel).GetProperty("QueryCollection").Name);
         }
 
@@ -204,32 +141,9 @@ namespace AutoSuggestControl
                 Type = ""
             });
 
-            mWaitMessage = DataToDisplayResult(dummyResult);
+            mWaitMessage = mSuggestion.DataToDisplayResult();
             this.OnPropertyChanged(typeof(AutoSuggestViewModel).GetProperty("WaitMessage").Name);
 
         }
-
-        private List<AutoSuggestModel.DisplayInstrumentResult> DataToDisplayResult( List<AutoSuggestModel.Instrument> a_instrumentList)
-        {         
-            List<AutoSuggestModel.DisplayInstrumentResult> displayList = new List<AutoSuggestModel.DisplayInstrumentResult>();
-            AutoSuggestModel.DisplayInstrumentResult headeritem = new AutoSuggestModel.DisplayInstrumentResult();
-            headeritem.CategoryName = "Instrument";
-            headeritem.HasMore = false;
-            headeritem.IsCategory = true;
-            displayList.Add(headeritem);
-
-            foreach (AutoSuggestModel.Instrument l_item in a_instrumentList)
-            {
-                AutoSuggestModel.DisplayInstrumentResult rowItem = new AutoSuggestModel.DisplayInstrumentResult();
-                rowItem.CategoryName = "Instrument";
-                rowItem.IsCategory = false;
-                rowItem.Title = l_item.Description;
-                rowItem.Subtitle = l_item.Type;
-                rowItem.Symbol = l_item.CodeName;
-                displayList.Add(rowItem);
-            }
-            return displayList;
-        }
-
     }
 }
