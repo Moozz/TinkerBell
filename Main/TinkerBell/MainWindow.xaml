@@ -3,14 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:metro="http://schemas.codeplex.com/elysium/theme"
-        Title="TinkerBell" Height="600" Width="900" ResizeMode="NoResize" Foreground="#FFFF5D00" BorderBrush="#FF6E9ECA" FontFamily="Calibri" FontSize="14.667">
-	<Window.Background>
-		<SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuHighlightColorKey}}"/>
-	</Window.Background>
-    <Grid Name="mainGrid" Background="White">
+        Title="TinkerBell" Height="600" Width="900" ResizeMode="NoResize" Closed="Window_Closed">
+    <Grid Name="mainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.647*" />
-            <ColumnDefinition Width="0.353*" />
+            <ColumnDefinition Width="578*" />
+            <ColumnDefinition Width="300*" />
         </Grid.ColumnDefinitions>
         <Grid Height="537" HorizontalAlignment="Left" Margin="12,12,0,0" Name="grid1" VerticalAlignment="Top" Width="566">
             <Grid.RowDefinitions>
@@ -18,17 +15,14 @@
                 <RowDefinition Height="151*" />
             </Grid.RowDefinitions>
         </Grid>
-        <GroupBox Header="Interpreter" HorizontalAlignment="Left" Margin="12,398,0,0" Name="Interpreter" VerticalAlignment="Top" FontSize="14.667" FontFamily="Calibri" BorderBrush="#FFFCC888">
+        <GroupBox Header="Interpreter" Height="150" HorizontalAlignment="Left" Margin="12,398,0,0" Name="Interpreter" VerticalAlignment="Top" Width="566">
             <Grid>
-            	<Grid.ColumnDefinitions>
-            		<ColumnDefinition/>
-            	</Grid.ColumnDefinitions>
-                <TextBlock HorizontalAlignment="Left" Name="InterpreterText" Text="Please add Instrument and Fields :)" VerticalAlignment="Top" Height="115" Width="542" TextWrapping="WrapWithOverflow" Margin="6,6,0,0" FontFamily="Calibri" FontSize="14.667" />
+                <TextBlock HorizontalAlignment="Left" Name="InterpreterText" Text="Please add Instrument and Fields :)" VerticalAlignment="Top" Height="115" Width="542" TextWrapping="WrapWithOverflow" Margin="6,6,0,0" />
             </Grid>
         </GroupBox>
-        <Button Content="Swap!" Grid.Column="1" Height="23" Margin="8,526,9.582,0" Name="TriggerEvent" VerticalAlignment="Top" Click="TriggerEvent_Click" BorderBrush="#FFFECA8A" Background="White" Foreground="#FFFE5200" />
+        <Button Content="Swap!" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="6,526,0,0" Name="TriggerEvent" VerticalAlignment="Top" Width="75" Click="TriggerEvent_Click" />
 
-        <Grid Grid.Column="1" Height="507" HorizontalAlignment="Left" Margin="6,12,0,0" Name="InputTable" VerticalAlignment="Top">
+        <Grid Grid.Column="1" Height="508" HorizontalAlignment="Left" Margin="6,12,0,0" Name="InputTable" VerticalAlignment="Top" Width="294">
             <Grid.Resources>
                 <GridLength x:Key="GridWidth">300</GridLength>
                 <GridLength x:Key="GridHeight">500</GridLength>
@@ -51,8 +45,8 @@
             </Grid.ColumnDefinitions>
 
             <!--Instruments-->
-            <GroupBox Header="Instruments" Grid.Row="0" Background="White" BorderBrush="#FFFDC989">
-                <WrapPanel Orientation="Horizontal" Name="TestWrap">
+            <GroupBox Header="Instruments" Grid.Row="0" Background="WhiteSmoke">
+                <WrapPanel Orientation="Horizontal" Name="TestWrap">                
                     <Grid Name="InstrumentsGrid" Width="{StaticResource InputWidth}" Height="Auto">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="{StaticResource GridWidth}" />
@@ -61,13 +55,13 @@
                         </Grid.ColumnDefinitions>
                     </Grid>
                     <Label Width="{StaticResource InputWidth}" Height="{StaticResource InputHeight}" Padding="2" >
-                        <Button Name="InstrumentsAddButton" Content="+" Width="{StaticResource InputButtonWidth}" Height="Auto" Click="InstrumentsAddButton_Click" Background="White" BorderBrush="#FFFFCB8B" Foreground="#FFFF5200" />
+                        <Button Name="InstrumentsAddButton" Content="+" Width="{StaticResource InputButtonWidth}" Height="Auto" Click="InstrumentsAddButton_Click" />
                     </Label>
                 </WrapPanel>
             </GroupBox>
 
             <!--Fields-->
-            <GroupBox Header="Fields" Grid.Row="1" Background="White" BorderBrush="#FFFDC989">
+            <GroupBox Header="Fields" Grid.Row="1" Background="Azure">
                 <WrapPanel Orientation="Horizontal">
                     <Grid Name="FieldsGrid" Width="{StaticResource InputWidth}" Height="Auto">
                         <Grid.ColumnDefinitions>
@@ -75,13 +69,13 @@
                         </Grid.ColumnDefinitions>
                     </Grid>
                     <Label Width="{StaticResource InputWidth}" Height="{StaticResource InputHeight}" Padding="2">
-                        <Button Name="FieldsAddButton" Content="+" Width="{StaticResource InputButtonWidth}" Height="Auto" Click="FieldsAddButton_Click" Background="White" BorderBrush="#FFFFCB8B" Foreground="#FFFF5200" />
+                        <Button Name="FieldsAddButton" Content="+" Width="{StaticResource InputButtonWidth}" Height="Auto" Click="FieldsAddButton_Click" />
                     </Label>
                 </WrapPanel>
             </GroupBox>
 
             <!--Parameters-->
-            <GroupBox Header="Parameters" Grid.Row="2" BorderBrush="#FFFDC989">
+            <GroupBox Header="Parameters" Grid.Row="2" Background="Bisque">
                 <WrapPanel Orientation="Horizontal">
                     <Grid Name="ParametersGrid" Width="{StaticResource InputWidth}" Height="Auto">
                         <Grid.ColumnDefinitions>
@@ -89,7 +83,7 @@
                         </Grid.ColumnDefinitions>
                     </Grid>
                     <Label Width="{StaticResource InputWidth}" Height="{StaticResource InputHeight}" Padding="2">
-                        <Button Name="ParametersAddButton" Content="+" Width="{StaticResource InputButtonWidth}" Height="Auto" Click="ParametersAddButton_Click" Background="White" BorderBrush="#FFFFCB8B" Foreground="#FFFF5200" />
+                        <Button Name="ParametersAddButton" Content="+" Width="{StaticResource InputButtonWidth}" Height="Auto" Click="ParametersAddButton_Click" />
                     </Label>
                 </WrapPanel>
             </GroupBox>
