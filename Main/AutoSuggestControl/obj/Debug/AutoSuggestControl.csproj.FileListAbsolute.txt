@@ -1,0 +1,15 @@
+D:\_dev\innova\Main\AutoSuggestControl\obj\Debug\AutoSuggestControl.csprojResolveAssemblyReference.cache
+D:\_dev\innova\Main\AutoSuggestControl\obj\Debug\AutoSuggestBox.g.cs
+D:\_dev\innova\Main\AutoSuggestControl\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\_dev\innova\Main\AutoSuggestControl\obj\Debug\PLAutoSuggestControl_MarkupCompile.cache
+D:\_dev\innova\Main\AutoSuggestControl\obj\Debug\PLAutoSuggestControl_MarkupCompile.lref
+D:\_dev\innova\Main\AutoSuggestControl\bin\Debug\PLAutoSuggestControl.dll
+D:\_dev\innova\Main\AutoSuggestControl\bin\Debug\PLAutoSuggestControl.pdb
+D:\_dev\innova\Main\AutoSuggestControl\bin\Debug\PLAutoSuggestBox.dll
+D:\_dev\innova\Main\AutoSuggestControl\bin\Debug\PLAutoSuggestBox.pdb
+D:\_dev\innova\Main\AutoSuggestControl\obj\Debug\AutoSuggestBox.baml
+D:\_dev\innova\Main\AutoSuggestControl\obj\Debug\PLAutoSuggestControl.g.resources
+D:\_dev\innova\Main\AutoSuggestControl\obj\Debug\PLAutoSuggestControl.Properties.Resources.resources
+D:\_dev\innova\Main\AutoSuggestControl\obj\Debug\AutoSuggestControl.csproj.GenerateResource.Cache
+D:\_dev\innova\Main\AutoSuggestControl\obj\Debug\PLAutoSuggestControl.dll
+D:\_dev\innova\Main\AutoSuggestControl\obj\Debug\PLAutoSuggestControl.pdb

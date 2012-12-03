@@ -1,0 +1,11 @@
+D:\_dev\innova\Main\AutoSuggestTextBox\bin\Debug\PLAutoSuggestBox.dll
+D:\_dev\innova\Main\AutoSuggestTextBox\bin\Debug\PLAutoSuggestBox.pdb
+D:\_dev\innova\Main\AutoSuggestTextBox\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\_dev\innova\Main\AutoSuggestTextBox\obj\Debug\PLAutoSuggestBox_MarkupCompile.cache
+D:\_dev\innova\Main\AutoSuggestTextBox\obj\Debug\PLAutoSuggestBox_MarkupCompile.lref
+D:\_dev\innova\Main\AutoSuggestTextBox\obj\Debug\Themes\Generic.baml
+D:\_dev\innova\Main\AutoSuggestTextBox\obj\Debug\PLAutoSuggestBox.g.resources
+D:\_dev\innova\Main\AutoSuggestTextBox\obj\Debug\PLAutoSuggestBox.Properties.Resources.resources
+D:\_dev\innova\Main\AutoSuggestTextBox\obj\Debug\AutoSuggestTextBox.csproj.GenerateResource.Cache
+D:\_dev\innova\Main\AutoSuggestTextBox\obj\Debug\PLAutoSuggestBox.dll
+D:\_dev\innova\Main\AutoSuggestTextBox\obj\Debug\PLAutoSuggestBox.pdb
