@@ -9,8 +9,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using AutoSuggestControl.Model;
-using RestSharp;
-using RestSharp.Contrib;
 using System.Windows.Data;
 
 

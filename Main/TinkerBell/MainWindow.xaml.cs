@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ExcelManager;
 
 using TinkerBell;
 using System.Timers;
@@ -26,7 +27,7 @@ namespace TinkerBell
         private CParameters m_parameter;
 
         enum Types { Insturments, Fields, Parameters };
-        int noOfInstruments = 0;
+        int m_noOfInstruments = 0;
         int noOfFields = 0;
         int noOfParameters = 0;
 
@@ -40,9 +41,10 @@ namespace TinkerBell
         List<Label> fieldLabel;
         List<AutoSuggestControl.AutoSuggestBox> instrumentTextBox;
         List<AutoSuggestControl.AutoSuggestBox> fieldTextBox;
-        List<Button> instrumentRemoveButton;
-        List<Button> fieldRemoveButton;
 
+        List<Button> instrumentRemoveButton;
+        
+        List<Button> fieldRemoveButton;
         const double textboxWidth = 220;
 
         // Parameters
@@ -59,9 +61,11 @@ namespace TinkerBell
         const double textboxParameterValueWidth = 50;
         const double labelParameterDescriptionWidth = 150;
 
+        CExcelManager m_excelMgr;
         public MainWindow()
         {
             InitializeComponent();
+
             m_childsWhoAreListeningToMe = new List<IWillHearMyParent>();
             m_parameter = new CParameters();
 
@@ -83,6 +87,8 @@ namespace TinkerBell
             parameterValueTextBox = new List<AutoSuggestControl.AutoSuggestBox>();
             parameterDescriptionLabel = new List<Label>();
             parameterRemoveButton = new List<Button>();
+
+            m_excelMgr = new CExcelManager();
 
             test();
         }
@@ -193,7 +199,7 @@ namespace TinkerBell
             }
         }
 
-        private void AddNewInputLine(Types type)
+        private void AddNewInputInstrument()
         {
             Label label = new Label();
             label.Width = inputWidth;
@@ -202,85 +208,86 @@ namespace TinkerBell
 
             WrapPanel labelPanel = new WrapPanel();
             labelPanel.Orientation = Orientation.Horizontal;
-            AutoSuggestControl.AutoSuggestBox textbox = new AutoSuggestControl.AutoSuggestBox();
-            switch (type)
-            {
-                case Types.Insturments:
-                    textbox.InitInstrumentAutoSuggest();
-                    break;
-                case Types.Fields:
-                    textbox.InitFieldAutoSuggest();
-                    break;
-                default:
-                    break;
-            }
+            AutoSuggestControl.AutoSuggestBox instrumentBox = new AutoSuggestControl.AutoSuggestBox();
+            instrumentBox.ListItemSelected += new RoutedPropertyChangedEventHandler<object>(instrumentBox_ListItemSelected);
+            instrumentBox.InitInstrumentAutoSuggest();
 
-            textbox.Width = textboxWidth;
-            textbox.Height = textboxHeight;
+            instrumentBox.Width = textboxWidth;
+            instrumentBox.Height = textboxHeight;
 
             Button removeButton = new Button();
             removeButton.Content = "-";
             removeButton.Width = removeButtonWidth;
             removeButton.Height = textboxHeight;
 
-            labelPanel.Children.Add(textbox);
+            labelPanel.Children.Add(instrumentBox);
             labelPanel.Children.Add(removeButton);
             label.Content = labelPanel;
-            
-            if (type == Types.Insturments)
+
+            label.Tag = m_noOfInstruments;
+            instrumentBox.Tag = m_noOfInstruments;
+            removeButton.Tag = m_noOfInstruments;
+            removeButton.PreviewMouseDown += new MouseButtonEventHandler(removeButton_Instruments_MouseDownEvent);
+
+            instrumentLabel.Add(label);
+            instrumentTextBox.Add(instrumentBox);
+            instrumentRemoveButton.Add(removeButton);
+
+            Grid.SetColumn(label, 0);
+            Grid.SetRow(label, m_noOfInstruments);
+
+            RowDefinition rowDef = new RowDefinition();
+            rowDef.Height = GridLength.Auto;
+            InstrumentsGrid.RowDefinitions.Insert(m_noOfInstruments, rowDef);
+            InstrumentsGrid.Children.Add(label);
+            ++m_noOfInstruments;
+        }
+
+        private void AddNewInputField()
+        {
+            Label label = new Label();
+            label.Width = inputWidth;
+            label.Height = inputHeight;
+            label.Padding = new Thickness(2);
+
+            WrapPanel labelPanel = new WrapPanel();
+            labelPanel.Orientation = Orientation.Horizontal;
+            AutoSuggestControl.AutoSuggestBox fieldBox = new AutoSuggestControl.AutoSuggestBox();
+            fieldBox.ListItemSelected += new RoutedPropertyChangedEventHandler<object>(fieldBox_ListItemSelected);
+            fieldBox.InitFieldAutoSuggest();
+
+            fieldBox.Width = textboxWidth;
+            fieldBox.Height = textboxHeight;
+
+            Button removeButton = new Button();
+            removeButton.Content = "-";
+            removeButton.Width = removeButtonWidth;
+            removeButton.Height = textboxHeight;
+
+            labelPanel.Children.Add(fieldBox);
+            labelPanel.Children.Add(removeButton);
+            label.Content = labelPanel;
+
+            label.Tag = "FieldLabel" + noOfFields;
+            fieldBox.Tag = "FieldTextbox" + noOfFields;
+            removeButton.Tag = "FieldRemoveButton" + noOfFields;
+            removeButton.PreviewMouseDown += new MouseButtonEventHandler(removeButton_Fields_MouseDownEvent);
+
+            fieldLabel.Add(label);
+            fieldTextBox.Add(fieldBox);
+            fieldRemoveButton.Add(removeButton);
+
+            if (FieldsGrid.RowDefinitions.Count() <= noOfFields)
             {
-                label.Tag = "InstrumentLabel" + noOfInstruments;
-                textbox.Tag = "InstrumentTextbox" + noOfInstruments;
-                removeButton.Tag = "InstrumentRemoveButton" + noOfInstruments;
-                removeButton.PreviewMouseDown += new MouseButtonEventHandler(removeButton_Instruments_MouseDownEvent);
-                
-                // To remove
-                //textbox.Text = "" + noOfInstruments;
-                //
-
-                instrumentLabel.Add(label);
-                instrumentTextBox.Add(textbox);
-                instrumentRemoveButton.Add(removeButton);
-
-                while (InstrumentsGrid.RowDefinitions.Count() > noOfInstruments)
-                {
-                    InstrumentsGrid.RowDefinitions.RemoveAt(InstrumentsGrid.RowDefinitions.Count() - 1);
-                }
-
-                Grid.SetColumn(label, 0);
-                Grid.SetRow(label, noOfInstruments);
-
                 RowDefinition rowDef = new RowDefinition();
                 rowDef.Height = GridLength.Auto;
-                InstrumentsGrid.RowDefinitions.Insert(noOfInstruments, rowDef);
-
-                InstrumentsGrid.Children.Add(label);
-                ++noOfInstruments;
+                FieldsGrid.RowDefinitions.Add(rowDef);
             }
-            if (type == Types.Fields)
-            {
-                label.Tag = "FieldLabel" + noOfFields;
-                textbox.Tag = "FieldTextbox" + noOfFields;
-                removeButton.Tag = "FieldRemoveButton" + noOfFields;
-                removeButton.PreviewMouseDown += new MouseButtonEventHandler(removeButton_Fields_MouseDownEvent);
+            Grid.SetColumn(label, 0);
+            Grid.SetRow(label, noOfFields);
 
-                fieldLabel.Add(label);
-                fieldTextBox.Add(textbox);
-                fieldRemoveButton.Add(removeButton);
-
-                if (FieldsGrid.RowDefinitions.Count() <= noOfFields)
-                {
-                    RowDefinition rowDef = new RowDefinition();
-                    rowDef.Height = GridLength.Auto;
-                    FieldsGrid.RowDefinitions.Add(rowDef);
-                }
-                Grid.SetColumn(label, 0);
-                Grid.SetRow(label, noOfFields);
-
-                FieldsGrid.Children.Add(label);
-                ++noOfFields;
-            }
-           
+            FieldsGrid.Children.Add(label);
+            ++noOfFields;
         }
 
         private void AddNewInputParametersLine()
@@ -324,7 +331,7 @@ namespace TinkerBell
             label.Content = labelPanel;
 
             label.Tag = "ParameterLabel" + noOfParameters;
-            labelPanel.Tag = "ParameterWrapPanel" + noOfInstruments;
+            labelPanel.Tag = "ParameterWrapPanel" + m_noOfInstruments;
             textboxKey.Tag = "ParameterKeyTextbox" + noOfParameters;
             labelSeparator.Tag = "ParameterSeparatorLabel" + noOfParameters;
             textboxValue.Tag = "ParameterValueTextbox" + noOfParameters;
@@ -360,7 +367,7 @@ namespace TinkerBell
 
         private void InstrumentsAddButton_Click(object sender, RoutedEventArgs e)
         {
-            AddNewInputLine(Types.Insturments);
+            AddNewInputInstrument();
             //InstrumentsAddButton.Focus();
             //InstrumentsAddButton.MoveFocus(new TraversalRequest(FocusNavigationDirection.Up));
             //Keyboard.Focus(instrumentTextBox[instrumentTextBox.Count - 1]);       
@@ -368,7 +375,7 @@ namespace TinkerBell
 
         private void FieldsAddButton_Click(object sender, RoutedEventArgs e)
         {
-            AddNewInputLine(Types.Fields);
+            AddNewInputField();
         }
 
         private void ParametersAddButton_Click(object sender, RoutedEventArgs e)
@@ -378,32 +385,28 @@ namespace TinkerBell
 
         private void removeButton_Instruments_MouseDownEvent(object sender, RoutedEventArgs e)
         {
-            String buttonName = ((Button)sender).Tag.ToString();
-            int instrumentIndex;
-            bool result = Int32.TryParse(buttonName.Substring(22), out instrumentIndex); //InstrumentRemoveButton{index}
+            String l_buttonName = ((Button)sender).Tag.ToString();
+            int l_instrumentIndex;
+            Int32.TryParse(l_buttonName, out l_instrumentIndex); //InstrumentRemoveButton{index}
 
-            //instrumentLabel[instrumentIndex].Tag = null;
-            //instrumentTextBox[instrumentIndex].Tag = null;
-            //instrumentRemoveButton[instrumentIndex].Tag = null;
+            instrumentLabel.RemoveAt(l_instrumentIndex);
+            instrumentTextBox.RemoveAt(l_instrumentIndex);
+            instrumentRemoveButton.RemoveAt(l_instrumentIndex);
 
-            instrumentLabel.RemoveAt(instrumentIndex);
-            instrumentTextBox.RemoveAt(instrumentIndex);
-            instrumentRemoveButton.RemoveAt(instrumentIndex);
+            InstrumentsGrid.RowDefinitions.RemoveAt(l_instrumentIndex);
+            InstrumentsGrid.Children.RemoveAt(l_instrumentIndex);
 
-            --noOfInstruments;
+            m_excelMgr.ResetInstrument(l_instrumentIndex);
+            m_excelMgr.RefreshInstrument();
+            --m_noOfInstruments;
 
-            for (int i = instrumentIndex; i < noOfInstruments; ++i)
+            //Update instrument tag
+            for (int l_index = l_instrumentIndex; l_index < m_noOfInstruments; ++l_index)
             {
-                instrumentLabel[i].Tag = "InstrumentLabel" + i;
-                instrumentTextBox[i].Tag = "InstrumentTextbox" + i;
-                instrumentRemoveButton[i].Tag = "InstrumentRemoveButton" + i;
+                instrumentLabel[l_index].Tag = l_index;
+                instrumentTextBox[l_index].Tag = l_index;
+                instrumentRemoveButton[l_index].Tag = l_index;
             }
-
-            //if (instrumentIndex == noOfInstruments)
-            //{
-            InstrumentsGrid.Children.RemoveAt(instrumentIndex);
-            //}
-            //InstrumentsGrid.RowDefinitions.RemoveAt(instrumentIndex);
         }
 
         private void removeButton_Fields_MouseDownEvent(object sender, RoutedEventArgs e)
@@ -487,7 +490,21 @@ namespace TinkerBell
             }
         }
 
+        void instrumentBox_ListItemSelected(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            m_excelMgr.InstrumentList = ((AutoSuggestControl.Model.AutoSuggestModel.DisplayInstrumentResult)e.NewValue).Symbol;
+            m_excelMgr.RefreshInstrument();
+        }
 
+        void fieldBox_ListItemSelected(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            m_excelMgr.FieldList = ((AutoSuggestControl.Model.AutoSuggestModel.DisplayInstrumentResult)e.NewValue).Symbol;
+            m_excelMgr.RefreshField();
+        }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            m_excelMgr.RemoveExcelApp();
+        }
     }
 }

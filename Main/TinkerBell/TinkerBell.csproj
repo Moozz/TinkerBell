@@ -30,8 +30,6 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -143,9 +141,10 @@
       <Project>{0B474E18-866F-47FB-B229-B73E6D492342}</Project>
       <Name>AutoSuggestTextBox</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Fonts\" />
+    <ProjectReference Include="..\ExcelManager\ExcelManager.csproj">
+      <Project>{087D26A6-6BCA-4B65-9EC8-53D73E34509B}</Project>
+      <Name>ExcelManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -155,7 +154,6 @@
     <PostBuildEvent>if not exist "$(SolutionDir)$(OutDir)" mkdir  "$(SolutionDir)$(OutDir)"
 copy "$(TargetDir)*.*" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.0\Microsoft.Expression.Blend.WPF.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
