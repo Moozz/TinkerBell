@@ -1,5 +1,6 @@
-D:\_dev\innova\Main\ExcelManager\bin\Debug\ExcelManager.dll
-D:\_dev\innova\Main\ExcelManager\bin\Debug\ExcelManager.pdb
-D:\_dev\innova\Main\ExcelManager\obj\Debug\ExcelManager.csproj.ResolveComReference.cache
-D:\_dev\innova\Main\ExcelManager\obj\Debug\ExcelManager.dll
-D:\_dev\innova\Main\ExcelManager\obj\Debug\ExcelManager.pdb
+D:\TinkerBell\Main\ExcelManager\bin\Debug\ExcelManager.dll
+D:\TinkerBell\Main\ExcelManager\bin\Debug\ExcelManager.pdb
+D:\TinkerBell\Main\ExcelManager\obj\Debug\ExcelManager.csproj.ResolveComReference.cache
+D:\TinkerBell\Main\ExcelManager\obj\Debug\ExcelManager.dll
+D:\TinkerBell\Main\ExcelManager\obj\Debug\ExcelManager.pdb
+D:\TinkerBell\Main\ExcelManager\obj\Debug\ExcelManager.csprojResolveAssemblyReference.cache

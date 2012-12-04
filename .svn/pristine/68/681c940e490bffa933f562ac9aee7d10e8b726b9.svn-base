@@ -1,0 +1,95 @@
+﻿<UserControl xmlns:my="clr-namespace:AutoSuggestTextBox;assembly=PLAutoSuggestBox"  
+             x:Class="AutoSuggestControl.AutoSuggestBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:AutoSuggestControl" 
+             xmlns:viewmodel="clr-namespace:AutoSuggestControl.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="300"
+             Background="Transparent">
+    
+    <UserControl.Resources>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontFamily" Value="Arial" />
+        </Style>
+        <Style TargetType="{x:Type Control}" x:Key="fontStyling">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontFamily" Value="Arial" />
+        </Style>
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource fontStyling}" />
+        <SolidColorBrush x:Key="GrayBorderBrush" Color="#FF343536" />
+        <SolidColorBrush x:Key="DarkGrayBackgroundBrush" Color="#FF1D1D1D" />
+         
+        <local:AutoSuggestViewModel x:Key="AutoSuggestVM"/>       
+
+        <CollectionViewSource x:Key="SuggestDataList">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="CategoryName"/>
+            </CollectionViewSource.GroupDescriptions>
+            <CollectionViewSource.Source>
+                <PriorityBinding>
+                    <Binding Source="{StaticResource AutoSuggestVM}" Path="QueryCollection" />
+                    <Binding Source="{StaticResource AutoSuggestVM}" Path="WaitMessage"/>
+                </PriorityBinding>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
+            
+        <DataTemplate x:Key="MyheaderTemplate">
+            <Label BorderThickness="0,0,0,1" BorderBrush="{StaticResource GrayBorderBrush}" 
+                   Background="#FFEFF3F7" Padding="12,4" 
+                   Content="{Binding CategoryName}" HorizontalAlignment="Stretch" Foreground="#FF1F272A" 
+                   IsTabStop="False"/>
+        </DataTemplate>
+        <DataTemplate x:Key="TheItemTemplate">
+            <Grid Margin="12,5" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="Auto" MaxWidth="600"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Symbol}" Foreground="#FFFF8000" FontSize="12" FontWeight="Bold" />
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <TextBlock Text="{Binding Title}" Foreground="#FF1F272A" FontSize="12" />
+                    <TextBlock Text=" - " Foreground="#FF8D99B6" FontSize="12" />
+                    <TextBlock Text="{Binding Subtitle}" Foreground="#FF8D99B6" VerticalAlignment="Bottom" />
+                </StackPanel>
+            </Grid>            
+        </DataTemplate>
+
+        <Style x:Key="MyContainerStyle" TargetType="{x:Type ListBoxItem}">
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#4D3104"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextColorKey}" Color="#FFFFFF"/>  
+            </Style.Resources>
+            
+            <Style.Triggers>
+                
+                <DataTrigger Binding="{Binding IsCategory}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>                    
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+
+        <viewmodel:RowTemplateSelector
+                  HeaderTemplate="{StaticResource MyheaderTemplate}" 
+                  RowTemplate="{StaticResource TheItemTemplate}"   
+            x:Key="TemplateSelector" />
+        
+    </UserControl.Resources>
+    
+    <Grid Background="#FFFFEEE5" GotFocus="Grid_GotFocus">
+        <my:AutoSuggestTextBox x:Name="commandBox" 
+            Text="{Binding Source={StaticResource AutoSuggestVM}, Path=QueryText, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding Source={StaticResource SuggestDataList}, UpdateSourceTrigger=PropertyChanged}"                
+            ItemTemplateSelector="{StaticResource TemplateSelector}"
+            ItemContainerStyle="{StaticResource MyContainerStyle}"                   
+            Binding="{Binding Symbol, Mode=OneWay}" 
+            MaxCompletions="15"
+            ListItemSelected="commandBox_ListItemSelected" Margin="0" Padding="0" TabIndex="0" Foreground="#FF403E3C" FontFamily="Calibri" FontSize="13"/>
+        <Border BorderBrush="#FFFFCB8B" BorderThickness="1" />
+    </Grid>
+</UserControl>

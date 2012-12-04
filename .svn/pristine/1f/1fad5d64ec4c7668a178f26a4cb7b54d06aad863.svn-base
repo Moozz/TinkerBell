@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="TinkerBell.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:metro="http://schemas.codeplex.com/elysium/theme"
+        Height="610" Width="360" Foreground="#FFFF5D00" BorderBrush="#FF6E9ECA" FontFamily="Calibri" FontSize="14.667">
+    <UserControl.Background>
+        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuHighlightColorKey}}"/>
+    </UserControl.Background>
+    <Grid x:Name="mainGrid" Background="White">
+        <Grid Height="600" Margin="10,10,10,0" x:Name="InputTable" VerticalAlignment="Top">
+            <Grid.Resources>
+                <GridLength x:Key="GridHeight">500</GridLength>
+                <System:Double x:Key="InputHeight">26</System:Double>
+                <System:Double x:Key="InputWidth">350</System:Double>
+                <System:Double x:Key="InputButtonWidth">25</System:Double>
+                <GridLength x:Key="GridParameterKeyWidth">60</GridLength>
+                <GridLength x:Key="GridParameterSeparatorWidth">10</GridLength>
+                <GridLength x:Key="GridParameterValueWidth">60</GridLength>
+                <GridLength x:Key="GridParameterDescriptionWidth">120</GridLength>
+            </Grid.Resources>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" MinHeight="55"/>
+                <RowDefinition Height="Auto" MinHeight="55"/>
+                <RowDefinition Height="Auto" MinHeight="55"/>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--Instruments-->
+            <Expander Header="Instruments" Grid.Row="0" Background="White" BorderBrush="{x:Null}" Foreground="#FFFF5D00" IsExpanded="True" >
+                <WrapPanel Orientation="Horizontal" Name="TestWrap" >
+                    <ListBox Name="Instrumentslb" Width="{StaticResource InputWidth}" Height="Auto"  BorderThickness="0"  />
+                    <Label Width="{StaticResource InputWidth}" Height="{StaticResource InputHeight}" Padding="2" >
+                        <Button Name="InstrumentsAddButton" Content="+" Width="{StaticResource InputButtonWidth}" Height="Auto" Click="InstrumentsAddButton_Click" Background="White" BorderBrush="#FFFFCB8B" Foreground="#FFFF5200" />
+                    </Label>
+                </WrapPanel>
+            </Expander>
+
+            <!--Fields-->
+            <Expander Header="Fields" Grid.Row="1" Background="White" BorderBrush="{x:Null}" Foreground="#FFFF5D00" IsExpanded="True" >
+                <WrapPanel Orientation="Horizontal">
+                    <ListBox Name="Fieldslb" Width="{StaticResource InputWidth}" Height="Auto" BorderThickness="0" />
+                    <Label Width="{StaticResource InputWidth}" Height="{StaticResource InputHeight}" Padding="2">
+                        <Button Name="FieldsAddButton" Content="+" Width="{StaticResource InputButtonWidth}" Height="Auto" Click="FieldsAddButton_Click" Background="White" BorderBrush="#FFFFCB8B" Foreground="#FFFF5200" />
+                    </Label>
+                </WrapPanel>
+            </Expander>
+
+            <!--Parameters-->
+            <Expander Header="Parameters" Grid.Row="2" Background="White" BorderBrush="{x:Null}" Foreground="#FFFF5D00" IsExpanded="True" >
+                <WrapPanel Orientation="Horizontal">
+                    <ListBox Name="Parameterslb" Width="{StaticResource InputWidth}" Height="Auto" BorderThickness="0" />
+                    <Label Width="{StaticResource InputWidth}" Height="{StaticResource InputHeight}" Padding="2">
+                        <Button Name="ParametersAddButton" Content="+" Width="{StaticResource InputButtonWidth}" Height="Auto" Click="ParametersAddButton_Click" Background="White" BorderBrush="#FFFFCB8B" Foreground="#FFFF5200" />
+                    </Label>
+                </WrapPanel>
+            </Expander>
+            <GroupBox Header="Interpreter" Grid.Row="3"  x:Name="Interpreter" FontSize="14.667" FontFamily="Calibri" BorderBrush="#FFFCC888" >
+                <Grid>
+                    <RichTextBox x:Name="InterpreterText" HorizontalAlignment="Left"  FontFamily="Calibri" FontSize="12" BorderThickness="0" AllowDrop="False" Foreground="#FFFF5D00" IsReadOnly="True">
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run Text="Please add Instrument and Fields :)"/>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        
+        <Button Content="Clear All !" Margin="10,0,10,10" x:Name="FinishButton" BorderBrush="#FFFECA8A" Background="White" Foreground="#FFFE5200" Click="FinishButton_Click" Height="23" VerticalAlignment="Bottom" />
+    </Grid>
+</UserControl>
